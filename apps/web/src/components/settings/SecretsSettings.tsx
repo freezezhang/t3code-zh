@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type { SecretProviderConfig, SecretProviderId } from "@t3tools/contracts";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
@@ -70,6 +71,7 @@ function EnvironmentSecretProviders({
   readonly environment: EnvironmentPresentation;
   readonly projectScoped: boolean;
 }) {
+  const { t: i18nT } = useTranslation();
   const environmentId = environment.environmentId;
   const sessionState = useEnvironmentSessionState(environmentId);
   // The server requires the same grant for secret providers as for provider settings.
@@ -160,7 +162,7 @@ function EnvironmentSecretProviders({
                           variant="ghost"
                           onClick={() => setDialog({ mode: "edit", id })}
                         >
-                          Edit
+                          {i18nT("Edit")}
                         </Button>
                       ) : null}
                       <RemoveSecretProviderButton
@@ -195,23 +197,28 @@ function RemoveSecretProviderButton({
   readonly label: string;
   readonly onConfirm: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
     <>
       <Button size="xs" variant="ghost" onClick={() => setOpen(true)}>
-        Remove
+        {i18nT("Remove")}
       </Button>
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogPopup>
           <AlertDialogHeader>
-            <AlertDialogTitle>Remove {label}?</AlertDialogTitle>
+            <AlertDialogTitle>
+              {i18nT("Remove")} {label}?
+            </AlertDialogTitle>
             <AlertDialogDescription>
               Provider variables that read from {label} stop resolving until a provider with the
               same name is added again. The secrets themselves are untouched.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogClose render={<Button variant="outline" />}>Cancel</AlertDialogClose>
+            <AlertDialogClose render={<Button variant="outline" />}>
+              {i18nT("Cancel")}
+            </AlertDialogClose>
             <Button
               variant="destructive"
               onClick={() => {

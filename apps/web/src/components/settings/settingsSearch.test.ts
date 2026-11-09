@@ -59,6 +59,10 @@ const ITEMS: ReadonlyArray<SettingsSearchItem> = [
 
 describe("searchSettings", () => {
   it("matches titles, sections, and remembered setting details", () => {
+    expect(searchSettings("中文")[0]?.id).toBe("interface-language");
+    expect(searchSettings("language")[0]?.id).toBe("interface-language");
+    expect(searchSettings("自动换行", ITEMS).map((item) => item.id)).toEqual(["word-wrap"]);
+    expect(searchSettings("常规", ITEMS).map((item) => item.id)).toContain("word-wrap");
     expect(searchSettings("word", ITEMS).map((item) => item.id)).toEqual(["word-wrap"]);
     expect(searchSettings("network", ITEMS).map((item) => item.id)).toEqual(["network-access"]);
     expect(searchSettings("sharing", ITEMS).map((item) => item.id)).toEqual(["network-access"]);

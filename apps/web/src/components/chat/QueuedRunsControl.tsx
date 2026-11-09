@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { scopeThreadRef } from "@t3tools/client-runtime/environment";
 import { deriveThreadQueueWorkflowState } from "@t3tools/client-runtime/state/thread-workflows";
 import { assistantCitationsToPlainText } from "@t3tools/shared/assistantCitations";
@@ -93,6 +94,7 @@ export function QueuedRunsControl({
   readonly timestampFormat: TimestampFormat;
   readonly onOpenThread: (threadId: ThreadId) => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const projection = useThreadProjection(
     scopeThreadRef(props.environmentId, props.threadId),
   )?.projection;
@@ -305,7 +307,7 @@ export function QueuedRunsControl({
                       aria-label="Cancel editing queued message"
                       onClick={props.onCancelEdit}
                     >
-                      Cancel
+                      {i18nT("Cancel")}
                     </Button>
                   </>
                 ) : (

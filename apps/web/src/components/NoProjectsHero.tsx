@@ -1,3 +1,4 @@
+import { useTranslation } from "../i18n";
 import { workspaceAreaProps } from "../lib/workspaceFocus";
 import { MessageSquareDashedIcon, PlusIcon } from "lucide-react";
 
@@ -11,6 +12,7 @@ import { SidebarInset } from "./ui/sidebar";
 import { WorkspacePageHeader } from "./WorkspacePageHeader";
 
 export function NoProjectsHero() {
+  const { t: i18nT } = useTranslation();
   const contentArea = workspaceAreaProps("home", 1, "Home");
   const primaryEnvironmentId = usePrimaryEnvironmentId();
   const { scratchEnvironmentId, startScratchThread } = useScratchProject();
@@ -37,7 +39,7 @@ export function NoProjectsHero() {
               <div className="mt-6 flex justify-center gap-2">
                 <Button size="sm" onClick={() => openCommandPalette({ open: "add-project" })}>
                   <PlusIcon className="size-4" />
-                  Add project
+                  {i18nT("Add project")}
                 </Button>
                 {scratchTargetEnvironmentId === null ? null : (
                   <Button

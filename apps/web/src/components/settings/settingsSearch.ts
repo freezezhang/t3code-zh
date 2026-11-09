@@ -1,3 +1,4 @@
+import { zhCN } from "../../i18n/zh-CN";
 import { HOSTED_APP_CHANNEL } from "~/branding";
 import { isElectron, isSecretsFeatureEnabled } from "~/env";
 import { isMacPlatform, isWindowsPlatform, normalizeSearchText } from "~/lib/utils";
@@ -216,6 +217,12 @@ const SOURCE_CONTROL_HOST_TERMS = sourceControlClients.definitions
   .join(" ");
 
 export const SETTINGS_SEARCH_ITEMS = [
+  {
+    id: "interface-language",
+    title: "Interface language",
+    to: "/settings/general",
+    searchTerms: ["language locale english chinese 简体中文 中文 语言 英语"],
+  },
   {
     id: "storage-worktree-keep-when",
     targetId: "storage-worktrees",
@@ -1370,7 +1377,11 @@ export function searchSettings(
       const title = normalizeSearchText(item.title);
       const fields = [
         title,
+        normalizeSearchText(zhCN[item.title] ?? item.title),
         normalizeSearchText(SETTINGS_SECTION_LABELS[item.to]),
+        normalizeSearchText(
+          zhCN[SETTINGS_SECTION_LABELS[item.to]] ?? SETTINGS_SECTION_LABELS[item.to],
+        ),
         ...(item.searchTerms ?? []).map(normalizeSearchText),
       ];
       if (!queryTokens.every((token) => fields.some((field) => field.includes(token)))) return [];

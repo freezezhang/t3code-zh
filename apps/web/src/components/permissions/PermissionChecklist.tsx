@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { CircleCheckIcon } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { Button } from "../ui/button";
@@ -18,6 +19,7 @@ export function PermissionChecklist({
   permissions: readonly PermissionItem[];
   busy?: boolean;
 }) {
+  const { t: i18nT } = useTranslation();
   return (
     <div className="space-y-2">
       {permissions.map((permission) => (
@@ -34,7 +36,7 @@ export function PermissionChecklist({
             </span>
           ) : (
             <Button size="xs" variant="outline" disabled={busy} onClick={permission.onAllow}>
-              Allow
+              {i18nT("Allow")}
             </Button>
           )}
         </div>

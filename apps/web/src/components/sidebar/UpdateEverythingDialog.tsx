@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useAtomValue } from "@effect/atom-react";
 import { EnvironmentId } from "@t3tools/contracts";
 import { Atom } from "effect/reactivity";
@@ -103,6 +104,7 @@ function UpdateEverythingDialogContent({
   disabledReason = null,
   busy = false,
 }: UpdateEverythingDialogContentProps) {
+  const { t: i18nT } = useTranslation();
   const stopped = useAtomValue(
     runningThreadCountAtom(
       restarts
@@ -155,7 +157,7 @@ function UpdateEverythingDialogContent({
             <div className="col-span-full grid grid-cols-subgrid border-b pb-1.5 text-muted-foreground text-xs">
               <span>Machine</span>
               <span>T3 Code</span>
-              <span>Providers</span>
+              <span>{i18nT("Providers")}</span>
               <span />
             </div>
             {updating.map((row) => (
@@ -228,7 +230,7 @@ function UpdateEverythingDialogContent({
           </p>
         ) : null}
         <AlertDialogClose ref={cancelRef} render={<Button variant="outline" disabled={busy} />}>
-          Cancel
+          {i18nT("Cancel")}
         </AlertDialogClose>
         <Button disabled={disabledReason !== null || busy} onClick={onConfirm}>
           {confirmLabel}

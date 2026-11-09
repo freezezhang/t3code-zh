@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { PlusIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import type { ProviderDriverKind, ServerProviderModel } from "@t3tools/contracts";
@@ -43,6 +44,7 @@ export function CustomModelEditor({
   onSave,
   onCancel,
 }: CustomModelEditorProps) {
+  const { t: i18nT } = useTranslation();
   const [draft, setDraft] = useState<CustomModelDraft>(() => draftFromDefinition(entry));
   const [error, setError] = useState<string | null>(null);
   const presets = driverKind ? (DESCRIPTOR_PRESETS_BY_KIND[driverKind] ?? []) : [];
@@ -163,7 +165,7 @@ export function CustomModelEditor({
           }
           aria-label="Default choice"
         />
-        Default
+        {i18nT("Default")}
       </label>
       <Button
         size="icon-micro"
@@ -363,10 +365,10 @@ export function CustomModelEditor({
 
       <div className="flex gap-2">
         <Button size="sm" variant="outline" onClick={handleSave}>
-          Save
+          {i18nT("Save")}
         </Button>
         <Button size="sm" variant="ghost" onClick={onCancel}>
-          Cancel
+          {i18nT("Cancel")}
         </Button>
       </div>
     </div>

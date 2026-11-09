@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import DOMPurify from "dompurify";
 import type { DiagramType, MathResolver } from "pele/lazy";
 import { use, useState } from "react";
@@ -299,13 +300,14 @@ function DiagramError({
   source: string;
   onRetry?: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   return (
     <div>
       <div className="flex items-center justify-between gap-2">
         <p className="m-0 text-xs text-destructive">Unable to render diagram: {message}</p>
         {onRetry ? (
           <Button type="button" variant="ghost" size="xs" onClick={onRetry}>
-            Retry
+            {i18nT("Retry")}
           </Button>
         ) : null}
       </div>

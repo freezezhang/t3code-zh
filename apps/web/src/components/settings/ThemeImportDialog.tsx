@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { DownloadIcon, PlusIcon } from "lucide-react";
 import type { ChangeEvent, DragEvent, UIEvent } from "react";
 import { settlePromise } from "@t3tools/client-runtime/state/runtime";
@@ -200,6 +201,7 @@ function ThemeImportBody({
   session: AbortController;
   onClose: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const { signal } = session;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [json, setJson] = useState("");
@@ -492,10 +494,10 @@ function ThemeImportBody({
                   Keep both
                 </Button>
                 <Button size="sm" variant="ghost" onClick={() => setConflicts(null)}>
-                  Back
+                  {i18nT("Back")}
                 </Button>
                 <Button size="sm" variant="ghost" onClick={() => onClose()}>
-                  Cancel
+                  {i18nT("Cancel")}
                 </Button>
               </div>
             </div>
@@ -522,7 +524,7 @@ function ThemeImportBody({
             {editorSection()}
             <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
               <Button variant="ghost" onClick={() => onClose()}>
-                Cancel
+                {i18nT("Cancel")}
               </Button>
               <Button disabled={!json.trim() || isReading} onClick={handleSubmit}>
                 <PlusIcon />

@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
 import type { EnvironmentId, PullRequestDetail, PullRequestRef } from "@t3tools/contracts";
 import { useState } from "react";
@@ -33,6 +34,7 @@ export function PullRequestTitleEditor({
   canWriteSourceControl: boolean;
   onSaved: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const update = useAtomCommand(pullRequestEnvironment.update, { reportFailure: false });
   const [titleScope, setTitleScope] = useState<{
     readonly pullRequestKey: string;
@@ -115,7 +117,7 @@ export function PullRequestTitleEditor({
           disabled={titleSaving}
           onClick={() => setTitleScope(null)}
         >
-          Cancel
+          {i18nT("Cancel")}
         </Button>
         <Button
           size="xs"
@@ -123,7 +125,7 @@ export function PullRequestTitleEditor({
           disabled={!canWriteSourceControl || titleSaving || titleDraft.trim().length === 0}
           onClick={() => void saveTitle(titleDraft)}
         >
-          {titleSaving ? "Saving..." : "Save"}
+          {titleSaving ? "Saving..." : i18nT("Save")}
         </Button>
       </div>
     </div>

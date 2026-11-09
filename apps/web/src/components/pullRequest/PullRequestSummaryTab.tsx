@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   capitalizeTerm,
   sourceControlClients,
@@ -407,6 +408,7 @@ export function PullRequestSummaryTab({
   onRefresh: () => void;
   onRefreshChecks?: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const terminology = sourceControlClients.get(detail.provider).changeRequest;
   const [shown, setShown] = useState({ url: detail.url, count: COMMENT_PAGE });
   const shownConversations = shown.url === detail.url ? shown.count : COMMENT_PAGE;
@@ -756,7 +758,7 @@ export function PullRequestSummaryTab({
         </div>
       </section>
 
-      <Section key={`description:${detail.url}`} title="Description" keepMounted>
+      <Section key={`description:${detail.url}`} title={i18nT("Description")} keepMounted>
         <div className="group">
           {bodyScope === detail.url ? (
             <PullRequestMarkdownEditor
@@ -796,7 +798,7 @@ export function PullRequestSummaryTab({
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span>Check details are out of date.</span>
             <Button size="xs" variant="ghost" onClick={onRefreshChecks}>
-              Refresh
+              {i18nT("Refresh")}
             </Button>
           </div>
         ) : detail.checks.length === 0 ? (

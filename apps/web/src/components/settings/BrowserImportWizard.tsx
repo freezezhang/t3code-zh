@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { PermissionChecklist, PermissionContinueButton } from "../permissions/PermissionChecklist";
 import { usePermissionStatus } from "../permissions/usePermissionStatus";
 import type { BrowserImportSource } from "@t3tools/contracts";
@@ -189,6 +190,7 @@ function QuitStep({
   readonly onCancel: () => void;
   readonly onRechecked: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   return (
     <>
       <DialogHeader>
@@ -199,7 +201,7 @@ function QuitStep({
       </DialogHeader>
       <DialogFooter>
         <Button variant="outline" onClick={onCancel}>
-          Cancel
+          {i18nT("Cancel")}
         </Button>
         <Button onClick={onRechecked}>I&rsquo;ve quit it</Button>
       </DialogFooter>
@@ -246,6 +248,7 @@ function FullDiskAccessStep({
   readonly onGranted: () => void;
   readonly stillRequired: boolean;
 }) {
+  const { t: i18nT } = useTranslation();
   const [opening, setOpening] = useState(false);
   const [openingError, setOpeningError] = useState<string | null>(null);
   const permission = usePermissionStatus(async () => ({ fullDiskAccess: await onCheck() }), {
@@ -304,14 +307,14 @@ function FullDiskAccessStep({
       </DialogPanel>
       <DialogFooter>
         <Button variant="outline" onClick={onCancel}>
-          Cancel
+          {i18nT("Cancel")}
         </Button>
         <PermissionContinueButton
           ready={permission.isReady(["fullDiskAccess"])}
           busy={opening}
           onClick={onGranted}
         >
-          Continue
+          {i18nT("Continue")}
         </PermissionContinueButton>
       </DialogFooter>
     </>
@@ -330,6 +333,7 @@ function ConfigureStep({
   onCancel,
   onImport,
 }: ConfigureStepProps) {
+  const { t: i18nT } = useTranslation();
   const targetMissing =
     target.kind === "existing" &&
     !targetProfiles.some((profile) => profile.id === target.profileId);
@@ -400,7 +404,7 @@ function ConfigureStep({
       </DialogPanel>
       <DialogFooter>
         <Button variant="outline" onClick={onCancel}>
-          Cancel
+          {i18nT("Cancel")}
         </Button>
         <Button
           disabled={sourceProfileDirectory === "" || targetMissing || targetUncreatable}
@@ -517,6 +521,7 @@ function DoneStep({
   readonly destinationEnvironmentName: string;
   readonly onClose: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   return (
     <>
       <DialogHeader>
@@ -545,7 +550,7 @@ function DoneStep({
       ) : null}
       <DialogFooter>
         <DialogClose render={<Button />} onClick={onClose}>
-          Done
+          {i18nT("Done")}
         </DialogClose>
       </DialogFooter>
     </>
@@ -565,6 +570,7 @@ function BlockedStep({
   readonly onClose: () => void;
   readonly onRetry: (() => void) | undefined;
 }) {
+  const { t: i18nT } = useTranslation();
   return (
     <>
       <DialogHeader>
@@ -573,7 +579,7 @@ function BlockedStep({
       </DialogHeader>
       <DialogFooter>
         <Button variant="outline" onClick={onClose}>
-          Close
+          {i18nT("Close")}
         </Button>
         {onRetry ? <Button onClick={onRetry}>Try again</Button> : null}
       </DialogFooter>

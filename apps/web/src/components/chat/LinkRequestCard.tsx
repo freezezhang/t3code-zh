@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { pipe } from "effect/Function";
 import { useAtomValue } from "@effect/atom-react";
 import {
@@ -205,6 +206,7 @@ function LinkRequestDialog(props: {
   readonly open: boolean;
   readonly onOpenChange: (open: boolean) => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const { item } = props;
   const formId = useId();
   const pickMachine = picksMachine(item);
@@ -447,11 +449,11 @@ function LinkRequestDialog(props: {
                 setError(null);
               }}
             >
-              Back
+              {i18nT("Back")}
             </Button>
           ) : (
             <Button variant="outline" type="button" disabled={busy} onClick={close}>
-              Cancel
+              {i18nT("Cancel")}
             </Button>
           )}
           <Button

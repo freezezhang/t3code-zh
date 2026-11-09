@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { findErrorTraceId } from "@t3tools/client-runtime/errors";
 import {
   isAtomCommandInterrupted,
@@ -49,6 +50,7 @@ function T3ConnectEnvironmentRow(props: {
   readonly onConfirmationChange: (open: boolean) => void;
   readonly onDeregister: (environment: RelayClientEnvironmentRecord) => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const { environment } = props;
   return (
     <ClerkUserProfileRow icon={<ServerIcon className="size-4" />}>
@@ -95,7 +97,7 @@ function T3ConnectEnvironmentRow(props: {
                   disabled={props.mutationPending}
                   onClick={() => props.onConfirmationChange(false)}
                 >
-                  Cancel
+                  {i18nT("Cancel")}
                 </Button>
                 <Button
                   size="sm"

@@ -1,3 +1,4 @@
+import { useTranslation } from "../i18n";
 import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
 import { type ComponentProps, type ReactNode } from "react";
 
@@ -45,6 +46,7 @@ export function CommandPaletteContent({
   testId,
   ...commandProps
 }: CommandPaletteContentProps) {
+  const { t: i18nT } = useTranslation();
   return (
     <div className="contents" data-testid={testId}>
       <Command {...commandProps}>
@@ -83,7 +85,7 @@ export function CommandPaletteContent({
             {showBackHint ? (
               <KbdGroup>
                 <Kbd>Backspace</Kbd>
-                <span>Back</span>
+                <span>{i18nT("Back")}</span>
               </KbdGroup>
             ) : null}
             <KbdGroup>

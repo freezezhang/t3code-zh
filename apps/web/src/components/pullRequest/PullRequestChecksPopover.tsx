@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type * as React from "react";
 import type {
   EnvironmentId,
@@ -59,6 +60,7 @@ function ChecksBody({
   checks: ReadonlyArray<PullRequestCheck>;
   threadRef: ScopedThreadRef | null;
 }) {
+  const { t: i18nT } = useTranslation();
   const openLink = useOpenLink(threadRef);
   const [showAll, setShowAll] = useState(false);
   const { attention, running, completed } = groupPullRequestChecks(checks);
@@ -105,7 +107,7 @@ function ChecksBody({
                       });
                     }}
                   >
-                    Details
+                    {i18nT("Details")}
                   </button>
                 )}
               </li>
@@ -120,7 +122,7 @@ function ChecksBody({
           aria-expanded={showAll}
           onClick={() => setShowAll(!showAll)}
         >
-          {showAll ? "Show less" : "Show all"}
+          {showAll ? i18nT("Show less") : "Show all"}
         </Button>
       ) : null}
     </>

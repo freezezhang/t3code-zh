@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type {
   ChatAttachment,
   ChatFileAttachment,
@@ -675,6 +676,7 @@ export function ComposerAttachButton({
   readonly addComposerAttachments: (files: File[]) => Promise<boolean>;
   readonly focusComposer: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <>
@@ -703,14 +705,14 @@ export function ComposerAttachButton({
               size="icon-sm"
               onPointerDown={(event) => event.preventDefault()}
               onClick={() => inputRef.current?.click()}
-              aria-label="Attach files"
+              aria-label={i18nT("Attach files")}
             />
           }
         >
           {/* The clip's weight sits in its upper loop; 1px down reads as centered on the row. */}
           <PaperclipIcon className="translate-y-px" />
         </TooltipTrigger>
-        <TooltipPopup>Attach files</TooltipPopup>
+        <TooltipPopup>{i18nT("Attach files")}</TooltipPopup>
       </Tooltip>
     </>
   );

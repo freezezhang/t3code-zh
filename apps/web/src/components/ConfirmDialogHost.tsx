@@ -1,3 +1,4 @@
+import { useTranslation } from "../i18n";
 import { useSyncExternalStore } from "react";
 
 import {
@@ -51,6 +52,7 @@ function resolveConfirmDialogCopy(message: string): ConfirmationCopy {
 }
 
 export function ConfirmDialogHost() {
+  const { t: i18nT } = useTranslation();
   const state = useSyncExternalStore(
     subscribeConfirmDialogHost,
     readConfirmDialogState,
@@ -82,9 +84,11 @@ export function ConfirmDialogHost() {
           ) : null}
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogClose render={<Button variant="outline" />}>Cancel</AlertDialogClose>
+          <AlertDialogClose render={<Button variant="outline" />}>
+            {i18nT("Cancel")}
+          </AlertDialogClose>
           <Button variant={confirmVariant} onClick={onConfirm}>
-            Confirm
+            {i18nT("Confirm")}
           </Button>
         </AlertDialogFooter>
       </AlertDialogPopup>

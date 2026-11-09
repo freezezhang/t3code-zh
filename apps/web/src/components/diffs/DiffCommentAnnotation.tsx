@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { MessageCircle, Trash2 } from "lucide-react";
 import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 
@@ -43,6 +44,7 @@ export function DiffCommentAnnotation({
   secondaryAction,
   focusOnMount = true,
 }: DiffCommentAnnotationProps) {
+  const { t: i18nT } = useTranslation();
   const [localDraftText, setLocalDraftText] = useState("");
   const displayedText = kind === "draft" && !onTextChange ? localDraftText : text;
   const trimmedText = displayedText.trim();
@@ -123,7 +125,7 @@ export function DiffCommentAnnotation({
       <div className="mt-1.5 flex items-center gap-1">
         <span className="mr-auto text-3xs text-muted-foreground/70">⌘/Ctrl Enter to send</span>
         <Button variant="ghost-muted" size="xs" onClick={onCancel}>
-          Cancel
+          {i18nT("Cancel")}
         </Button>
         {secondaryAction ? (
           <Button

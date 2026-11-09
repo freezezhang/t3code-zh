@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useScopedSettingsWriteAllowed } from "./useScopedSettings";
 import { SettingsIcon } from "lucide-react";
 import { useState } from "react";
@@ -94,6 +95,7 @@ function BackgroundActivityAdvancedDialog({
   readonly open: boolean;
   readonly onOpenChange: (open: boolean) => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const canWriteSettings = useScopedSettingsWriteAllowed();
   const settings = useScopedSettings();
   const updateSettings = useUpdateScopedSettings();
@@ -318,7 +320,7 @@ function BackgroundActivityAdvancedDialog({
           >
             Reset all
           </Button>
-          <Button onClick={() => onOpenChange(false)}>Done</Button>
+          <Button onClick={() => onOpenChange(false)}>{i18nT("Done")}</Button>
         </DialogFooter>
       </DialogPopup>
     </Dialog>

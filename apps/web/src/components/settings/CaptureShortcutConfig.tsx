@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   isModifierPairShortcut,
   type DesktopCaptureConfigApplied,
@@ -35,6 +36,7 @@ export function CaptureShortcutConfig({
   onSaved?: () => Promise<unknown>;
   onComplete?: () => Promise<void>;
 }) {
+  const { t: i18nT } = useTranslation();
   const bridge = getDesktopSnapShotBridge();
   const resolvedTheme = useRenderedAppearance();
   const { copyToClipboard, isCopied } = useCopyToClipboard();
@@ -211,7 +213,7 @@ export function CaptureShortcutConfig({
               </Button>
             ) : null}
             <Button variant="ghost" disabled={actionBusy} onClick={() => setPreview(null)}>
-              Cancel
+              {i18nT("Cancel")}
             </Button>
           </div>
         </>
@@ -243,7 +245,7 @@ export function CaptureShortcutConfig({
         </p>
       ) : null}
       <details className="text-xs text-muted-foreground">
-        <summary className="cursor-pointer">Advanced</summary>
+        <summary className="cursor-pointer">{i18nT("Advanced")}</summary>
         <div className="mt-3 space-y-3">
           {error?.detail || result?.warning ? (
             <div className="space-y-1">
@@ -316,7 +318,7 @@ export function CaptureShortcutConfig({
               if (state.shortcutBinding) copyToClipboard(state.shortcutBinding);
             }}
           >
-            {isCopied ? "Copied" : "Copy shortcut"}
+            {isCopied ? i18nT("Copied") : "Copy shortcut"}
           </Button>
           <p>
             Turn capture off in T3 Code to stop it. Remove the shortcut from {desktop} to free up

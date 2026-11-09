@@ -1,3 +1,4 @@
+import { useTranslation } from "../i18n";
 import { useEffect, useId, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { create } from "zustand";
@@ -63,6 +64,7 @@ export function CustomSnoozeDialogHost() {
 }
 
 function CustomSnoozeDialog() {
+  const { t: i18nT } = useTranslation();
   const id = useId();
   const navigate = useNavigate();
   const [initial] = useState(() => new Date(Date.now() + 3_600_000));
@@ -243,9 +245,9 @@ function CustomSnoozeDialog() {
               Edit snooze options
             </Button>
             <Button type="button" variant="outline" onClick={() => finish(null)}>
-              Cancel
+              {i18nT("Cancel")}
             </Button>
-            <Button type="submit">Snooze</Button>
+            <Button type="submit">{i18nT("Snooze")}</Button>
           </DialogFooter>
         </form>
       </DialogPopup>

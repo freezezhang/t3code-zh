@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   buildTraitsTriggerDisplay,
   getDescriptorStringValue,
@@ -101,9 +102,10 @@ type TraitsPersistence =
     };
 
 function DefaultBadge() {
+  const { t: i18nT } = useTranslation();
   return (
     <Badge variant="outline" size="sm" className="min-w-0">
-      Default
+      {i18nT("Default")}
     </Badge>
   );
 }

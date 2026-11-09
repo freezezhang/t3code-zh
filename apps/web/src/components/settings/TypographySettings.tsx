@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type { ReactNode } from "react";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import {
@@ -201,6 +202,7 @@ function TerminalFontRow() {
 }
 
 function FontSmoothingRow() {
+  const { t: i18nT } = useTranslation();
   const settings = useScopedSettings();
   const updateSettings = useUpdateScopedSettings();
   if (!isMacPlatform(navigator.platform)) return null;
@@ -222,7 +224,7 @@ function FontSmoothingRow() {
         <Switch
           checked={settings.fontSmoothing}
           onCheckedChange={(checked) => updateSettings({ fontSmoothing: Boolean(checked) })}
-          aria-label="Font smoothing"
+          aria-label={i18nT("Font smoothing")}
         />
       }
     />
@@ -273,6 +275,7 @@ function SeparateFontsRow({
   readonly checked: boolean;
   readonly onCheckedChange: (checked: boolean) => void;
 }) {
+  const { t: i18nT } = useTranslation();
   return (
     <SettingsRow
       {...searchableSetting("separate-fonts")}
@@ -281,7 +284,7 @@ function SeparateFontsRow({
         <Switch
           checked={checked}
           onCheckedChange={(next) => onCheckedChange(Boolean(next))}
-          aria-label="Separate fonts"
+          aria-label={i18nT("Separate fonts")}
         />
       }
     />

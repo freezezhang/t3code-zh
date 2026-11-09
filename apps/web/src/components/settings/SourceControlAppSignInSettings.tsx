@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type { EnvironmentId, SourceControlSignInPrompt } from "@t3tools/contracts";
 import {
   readHostCredentialSettings,
@@ -96,6 +97,7 @@ export function SourceControlAppSignInSettings({
   readonly account: string | null;
   readonly onChanged: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const host = appSignIn.hosts[0] ?? "";
   const { signIns, tokens } = useEnvironmentSettings(environmentId, (settings) =>
     readHostCredentialSettings(settings, definition.kind),
@@ -177,7 +179,7 @@ export function SourceControlAppSignInSettings({
       );
     action = (
       <Button size="xs" variant="outline" disabled={!canSignIn} onClick={() => void signOut()}>
-        Sign out
+        {i18nT("Sign out")}
       </Button>
     );
   } else if (waiting !== null) {
@@ -191,7 +193,7 @@ export function SourceControlAppSignInSettings({
           void cancel({ environmentId, input: { provider: definition.kind, host } });
         }}
       >
-        Cancel
+        {i18nT("Cancel")}
       </Button>
     );
   } else {

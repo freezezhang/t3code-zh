@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useAuth } from "@clerk/react";
 import { Link } from "@tanstack/react-router";
 import { managedCapabilityDenial } from "@t3tools/contracts";
@@ -16,9 +17,10 @@ import { firstManagedDenial, usePrimaryManagedPolicy } from "~/state/managedPoli
 
 /** Features still settling in, and legacy behavior kept for people who rely on it. */
 export function LabsSettingsPanel() {
+  const { t: i18nT } = useTranslation();
   return (
     <SettingsPageContainer>
-      <SettingsSection id="beta" title="Beta">
+      <SettingsSection id="beta" title={i18nT("Beta")}>
         <BoringSidebarRow />
         <BoringSidebarMultilineRow />
         {/* Clerk is only mounted when this build has T3 Connect. */}
@@ -74,6 +76,7 @@ function BoringSidebarMultilineRow() {
 
 /** Signed out of T3 Connect, the row offers to sign in instead of its switch. */
 function GuestLinksRowWithSignIn() {
+  const { t: i18nT } = useTranslation();
   const { isSignedIn } = useAuth();
   const { openAuthPrompt } = useT3ConnectAuthPrompt();
   // `isSignedIn` is undefined until Clerk loads.
@@ -84,7 +87,7 @@ function GuestLinksRowWithSignIn() {
       description="Share a thread with a guest who watches it live in their browser and sends messages you approve. Sign in to T3 Connect to use guest links."
       control={
         <Button size="sm" variant="outline" onClick={openAuthPrompt}>
-          Sign in
+          {i18nT("Sign in")}
         </Button>
       }
     />
@@ -92,6 +95,7 @@ function GuestLinksRowWithSignIn() {
 }
 
 function GuestLinksRow() {
+  const { t: i18nT } = useTranslation();
   const settings = useScopedSettings();
   const updateSettings = useUpdateScopedSettings();
   const scope = useOptionalSettingsScope();
@@ -115,7 +119,7 @@ function GuestLinksRow() {
           Share a thread with a guest who watches it live in their browser and sends messages you
           approve. Needs T3 Connect: sign in and link this machine in{" "}
           <Link to="/settings/access" className="underline underline-offset-2">
-            Sharing & access
+            {i18nT("Sharing & access")}
           </Link>
           . While it is off, every guest link stops working.
         </>
@@ -133,6 +137,7 @@ function GuestLinksRow() {
 }
 
 function LinkedEnvironmentsRow() {
+  const { t: i18nT } = useTranslation();
   const settings = useScopedSettings();
   const updateSettings = useUpdateScopedSettings();
   return (
@@ -145,7 +150,7 @@ function LinkedEnvironmentsRow() {
           Let agents here work on your other machines, and theirs here. Turn it on for each machine,
           then link them in{" "}
           <Link to="/settings/connections" className="underline underline-offset-2">
-            Connections
+            {i18nT("Connections")}
           </Link>
           . While it is off, nothing new starts over a link; tasks already running finish.
         </>
@@ -165,6 +170,7 @@ function LinkedEnvironmentsRow() {
 }
 
 function SimlockHostsRow() {
+  const { t: i18nT } = useTranslation();
   const settings = useScopedSettings();
   const updateSettings = useUpdateScopedSettings();
   return (
@@ -185,7 +191,7 @@ function SimlockHostsRow() {
           </a>{" "}
           pool, added in{" "}
           <Link to="/settings/devices" className="underline underline-offset-2">
-            Devices
+            {i18nT("Devices")}
           </Link>
           . An alpha that may change or break. T3 Code never installs Simlock.
         </>

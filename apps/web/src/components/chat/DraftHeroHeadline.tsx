@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type { DraftId } from "~/composerDraftStore";
 import { composerDraftHasUserContent, useComposerDraftStore } from "~/composerDraftStore";
 import { resolveEnvironmentMachineKind, type ScopedProjectRef } from "@t3tools/contracts";
@@ -74,6 +75,7 @@ export function DraftHeroHeadline({
   activeProjectRef,
   activeProjectTitle,
 }: DraftHeroHeadlineProps) {
+  const { t: i18nT } = useTranslation();
   const projects = useProjects();
   const threads = useVisibleThreadShells();
   const { environments } = useEnvironments();
@@ -311,7 +313,7 @@ export function DraftHeroHeadline({
       </Tooltip>
       <ComboboxPopup align="center" className="w-72 overflow-hidden">
         <ComboboxSearchInput
-          aria-label="Search projects"
+          aria-label={i18nT("Search projects")}
           placeholder="Search projects..."
           value={pickerQuery}
           onChange={(event) => setPickerQuery(event.target.value)}

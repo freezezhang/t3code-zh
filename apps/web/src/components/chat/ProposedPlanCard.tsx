@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { proposedPlanTitle, stripDisplayedPlanMarkdown } from "@t3tools/shared/proposedPlanText";
 import { memo, useState, useId } from "react";
 import { findRevealRef } from "./markdownFindContext";
@@ -272,6 +273,7 @@ function SavePlanToWorkspaceForm({
   onCancel: () => void;
   onSave: (path: string) => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const [savePath, setSavePath] = useState(initialPath);
   const savePathInputId = useId();
   return (
@@ -297,10 +299,10 @@ function SavePlanToWorkspaceForm({
       </DialogPanel>
       <DialogFooter>
         <Button variant="outline" size="sm" onClick={onCancel} disabled={saving}>
-          Cancel
+          {i18nT("Cancel")}
         </Button>
         <Button size="sm" onClick={() => onSave(savePath)} disabled={!canWriteFiles || saving}>
-          {saving ? "Saving..." : "Save"}
+          {saving ? "Saving..." : i18nT("Save")}
         </Button>
       </DialogFooter>
     </>

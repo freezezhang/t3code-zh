@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useAtomValue } from "@effect/atom-react";
 import { scopeThreadRef } from "@t3tools/client-runtime/environment";
 import {
@@ -45,6 +46,7 @@ export function ThreadServersPanel(props: ThreadServersPanelProps) {
 }
 
 function ThreadServersList(props: ThreadServersPanelProps) {
+  const { t: i18nT } = useTranslation();
   const servers = useThreadDiscoveredPorts(props);
   const canOpen = useEnvironmentScope(props.environmentId, AuthPreviewOperateScope);
   const canStop = useAtomValue(
@@ -195,7 +197,9 @@ function ThreadServersList(props: ThreadServersPanelProps) {
             className="size-4 shrink-0"
             icon={hiddenCount > 0 ? ChevronDown : ChevronUp}
           />
-          {hiddenCount > 0 ? `Show ${Math.min(hiddenCount, SERVER_PAGE_COUNT)} more` : "Show less"}
+          {hiddenCount > 0
+            ? `Show ${Math.min(hiddenCount, SERVER_PAGE_COUNT)} more`
+            : i18nT("Show less")}
         </ThreadDetailsControl>
       ) : null}
     </ThreadDetailsSection>

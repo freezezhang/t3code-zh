@@ -1,3 +1,4 @@
+import { useTranslation } from "../i18n";
 import {
   AuthOrchestrationOperateScope,
   AuthSettingsWriteScope,
@@ -151,6 +152,7 @@ export function ProjectScriptEditorDialog({
   onDelete: (scriptId: string) => void;
   onClose: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const canEditActions = useEnvironmentScope(environmentId, editScope);
   // Scope errors by request so late saves cannot overwrite a newer request's error.
   const [errorState, setErrorState] = useState<{
@@ -215,7 +217,9 @@ export function ProjectScriptEditorDialog({
             <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogClose render={<Button variant="outline" />}>Cancel</AlertDialogClose>
+            <AlertDialogClose render={<Button variant="outline" />}>
+              {i18nT("Cancel")}
+            </AlertDialogClose>
             <Button
               variant="destructive"
               disabled={!canEditActions}
@@ -263,6 +267,7 @@ function ProjectScriptEditorForm({
   onRequestDelete: (name: string) => void;
   onClose: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const canEditActions = useEnvironmentScope(environmentId, editScope);
   const canWriteSettings = useEnvironmentScope(environmentId, AuthSettingsWriteScope);
   const formId = React.useId();
@@ -409,7 +414,7 @@ function ProjectScriptEditorForm({
         <form id={formId} onSubmit={submit}>
           <fieldset className="space-y-4" disabled={isSaving || !canEditActions}>
             <div className="space-y-1.5">
-              <Label htmlFor="script-name">Name</Label>
+              <Label htmlFor="script-name">{i18nT("Name")}</Label>
               <div className="flex items-center gap-2">
                 <Popover onOpenChange={setIconPickerOpen} open={iconPickerOpen}>
                   <PopoverTrigger
@@ -546,11 +551,11 @@ function ProjectScriptEditorForm({
             disabled={isSaving || !canEditActions}
             onClick={() => onRequestDelete(name)}
           >
-            Delete
+            {i18nT("Delete")}
           </Button>
         )}
         <Button type="button" variant="outline" onClick={close}>
-          Cancel
+          {i18nT("Cancel")}
         </Button>
         <Button form={formId} type="submit" disabled={isSaving || !canEditActions}>
           {isSaving ? "Saving…" : isEditing ? "Save changes" : "Save action"}

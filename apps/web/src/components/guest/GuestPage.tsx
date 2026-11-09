@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   EnvironmentId,
   GUEST_MESSAGE_MAX_LENGTH,
@@ -672,6 +673,7 @@ function GuestComposer({
   readonly shareId: GuestShareView["shareId"];
   readonly model: GuestThreadModel;
 }) {
+  const { t: i18nT } = useTranslation();
   const [text, setText] = useState("");
   const [files, setFiles] = useState<ReadonlyArray<StagedFile>>([]);
   const [sending, setSending] = useState(false);
@@ -779,8 +781,8 @@ function GuestComposer({
         </ul>
       ) : null}
       <textarea
-        aria-label="Message"
-        placeholder="Message"
+        aria-label={i18nT("Message")}
+        placeholder={i18nT("Message")}
         rows={2}
         maxLength={GUEST_MESSAGE_MAX_LENGTH}
         value={text}
@@ -802,7 +804,10 @@ function GuestComposer({
             event.target.value = "";
           }}
         />
-        <ComposerControl aria-label="Attach files" onClick={() => fileInputRef.current?.click()}>
+        <ComposerControl
+          aria-label={i18nT("Attach files")}
+          onClick={() => fileInputRef.current?.click()}
+        >
           <ComposerControlIcon icon={PaperclipIcon} />
         </ComposerControl>
         <GuestModelLabel model={model} />
@@ -817,7 +822,7 @@ function GuestComposer({
         )}
         <button
           type="submit"
-          aria-label="Send"
+          aria-label={i18nT("Send")}
           disabled={sending || (text.trim() === "" && files.length === 0)}
           className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-message-action text-message-action-foreground shadow-xs hover:bg-message-action-hover focus-visible:outline-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-64"
         >

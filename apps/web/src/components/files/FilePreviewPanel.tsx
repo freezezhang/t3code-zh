@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { DownloadIcon, CopyIcon, CheckIcon } from "lucide-react";
 import { useCopyToClipboard } from "~/hooks/useCopyToClipboard";
 import { Spinner } from "~/components/ui/spinner";
@@ -1569,6 +1570,7 @@ export function WorkspaceLargeTextPreview(props: {
   revealRequestId: number;
   wordWrap: boolean;
 }) {
+  const { t: i18nT } = useTranslation();
   const resource = {
     _tag: "media-file",
     threadId: props.threadRef.threadId,
@@ -1614,14 +1616,14 @@ export function WorkspaceLargeTextPreview(props: {
       />
     );
   if (assetUrl._tag !== "Success" || loaded === null)
-    return <div className="p-6 text-xs text-muted-foreground">Loading…</div>;
+    return <div className="p-6 text-xs text-muted-foreground">{i18nT("Loading…")}</div>;
   const src = `${loaded.url}${loaded.url.includes("?") ? "&" : "?"}revision=${encodeURIComponent(loaded.revision)}`;
   return (
     <>
       <div className={FILE_SURFACE_SUBHEADER_CLASS}>
         <span className="min-w-0 flex-1 text-xs text-muted-foreground">Full file</span>
         <FileSurfaceAction
-          label={isCopied ? "Copied" : "Copy contents"}
+          label={isCopied ? i18nT("Copied") : "Copy contents"}
           onPress={() => {
             const copy = copyContents.current;
             if (!copy) return;
@@ -1656,7 +1658,9 @@ export function WorkspaceLargeTextPreview(props: {
           <DownloadIcon className="size-3.5" />
         </FileSurfaceAction>
       </div>
-      <Suspense fallback={<div className="p-6 text-xs text-muted-foreground">Loading…</div>}>
+      <Suspense
+        fallback={<div className="p-6 text-xs text-muted-foreground">{i18nT("Loading…")}</div>}
+      >
         <LargeTextViewer
           key={`${src}:${revision}`}
           name={props.name}

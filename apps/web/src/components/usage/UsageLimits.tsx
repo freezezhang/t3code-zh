@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   AuthProvidersManageScope,
   type EnvironmentId,
@@ -281,6 +282,7 @@ export function ResetCreditDialog({
   readonly onConfirm: () => void;
   readonly disabled?: boolean;
 }) {
+  const { t: i18nT } = useTranslation();
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogPopup>
@@ -292,7 +294,9 @@ export function ResetCreditDialog({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogClose render={<Button variant="outline" />}>Cancel</AlertDialogClose>
+          <AlertDialogClose render={<Button variant="outline" />}>
+            {i18nT("Cancel")}
+          </AlertDialogClose>
           <Button disabled={disabled} onClick={onConfirm}>
             Use credit
           </Button>

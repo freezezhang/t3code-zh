@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type { ReactNode } from "react";
 import type { DeviceToolVersions as ToolVersions } from "@t3tools/contracts";
 import { InlineButton } from "~/components/ui/button";
@@ -16,6 +17,7 @@ export function DeviceToolVersions({
   owner?: string | undefined;
   error?: string | undefined;
 }) {
+  const { t: i18nT } = useTranslation();
   const selected = kind ? tools?.[kind] : undefined;
   const version =
     selected?.runningVersion ??
@@ -60,9 +62,9 @@ export function DeviceToolVersions({
                 <div key={name} className="space-y-2 py-3 first:pt-0 last:pb-0">
                   {!kind ? <p className="text-xs font-medium">{name}</p> : null}
                   <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-xs">
-                    <dt className="text-muted-foreground">Running</dt>
+                    <dt className="text-muted-foreground">{i18nT("Running")}</dt>
                     <dd className="text-right font-mono">{tool.runningVersion ?? "Not running"}</dd>
-                    <dt className="text-muted-foreground">Required</dt>
+                    <dt className="text-muted-foreground">{i18nT("Required")}</dt>
                     <dd className="text-right font-mono">{tool.requiredVersion}</dd>
                     <dt className="text-muted-foreground">Installed</dt>
                     <dd className="text-right font-mono break-words">

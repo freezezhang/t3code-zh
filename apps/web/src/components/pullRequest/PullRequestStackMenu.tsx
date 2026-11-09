@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { Tooltip, TooltipTrigger, TooltipPopup } from "../ui/tooltip";
 import type {
   EnvironmentId,
@@ -58,6 +59,7 @@ export function PullRequestStackMenu({
   onSelect?: ((reference: PullRequestRef) => void) | undefined;
   onActed: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const [open, setOpen] = useState(false);
   const [confirmation, setConfirmation] = useState<"merge" | "update-branch" | null>(null);
   const [pending, setPending] = useState(false);
@@ -267,7 +269,7 @@ export function PullRequestStackMenu({
           </DialogPanel>
           <DialogFooter>
             <Button variant="outline" onClick={() => setConfirmation(null)}>
-              Cancel
+              {i18nT("Cancel")}
             </Button>
             <Button onClick={() => void run()}>
               {confirmation === "merge" ? "Merge stack" : "Rebase stack"}

@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   type ProviderApprovalDecision,
   type ProviderApprovalOption,
@@ -39,6 +40,7 @@ export const ComposerPendingApprovalActions = memo(function ComposerPendingAppro
   options = DEFAULT_APPROVAL_OPTIONS,
   onRespondToApproval,
 }: ComposerPendingApprovalActionsProps) {
+  const { t: i18nT } = useTranslation();
   const primaryOptions = options.filter(
     (option) => option.decision === "decline" || option.decision === "accept",
   );
@@ -106,7 +108,7 @@ export const ComposerPendingApprovalActions = memo(function ComposerPendingAppro
               )
             }
           >
-            {presentation === "inline" ? "More" : <EllipsisIcon />}
+            {presentation === "inline" ? i18nT("More") : <EllipsisIcon />}
           </MenuTrigger>
           <MenuPopup {...composerFloatingLayerProps} side="top" align="end" width="content">
             {moreOptions.map((option) => {

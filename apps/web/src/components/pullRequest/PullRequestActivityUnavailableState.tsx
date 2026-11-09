@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { RefreshIcon } from "~/components/ui/refresh-icon";
 
 import { cn } from "~/lib/utils";
@@ -16,6 +17,7 @@ export function PullRequestActivityUnavailableState({
   onRetry: () => void;
   compact?: boolean;
 }) {
+  const { t: i18nT } = useTranslation();
   return (
     <div
       className={cn(
@@ -27,7 +29,7 @@ export function PullRequestActivityUnavailableState({
       <p className="max-w-md text-xs text-muted-foreground">{error}</p>
       <Button size="sm" variant="outline" onClick={onRetry}>
         <RefreshIcon aria-hidden size="sm" />
-        Retry
+        {i18nT("Retry")}
       </Button>
     </div>
   );

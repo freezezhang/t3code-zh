@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useComposerMenuState } from "../chat/useComposerMenuState";
 import { useOrchestrationCommand } from "../../state/use-orchestration-command";
 import { AuthOrchestrationOperateScope } from "@t3tools/contracts";
@@ -261,6 +262,7 @@ function ProjectDetail({
   allMembers: ReadonlyArray<SidebarProjectGroupMember>;
   hasOtherMembers: boolean;
 }) {
+  const { t: i18nT } = useTranslation();
   const navigate = useNavigate({ from: "/settings" });
   const primaryEnvironmentId = usePrimaryEnvironmentId();
   const { environments } = useEnvironments();
@@ -426,7 +428,7 @@ function ProjectDetail({
           onClick={() => void removeMembers([member])}
           aria-label={`Remove checkout ${member.workspaceRoot}`}
         >
-          Remove
+          {i18nT("Remove")}
         </Button>
       ) : null}
     </div>
@@ -512,7 +514,7 @@ function ProjectDetail({
             Can't find a setting? Keep this project picked above and hop to any other settings page.
           </AlertDescription>
         </Alert>
-        <SettingsSection id="project-overview" title="Project" hideTitle>
+        <SettingsSection id="project-overview" title={i18nT("Project")} hideTitle>
           {!canEditGroup ? (
             <p className="px-3 py-2 text-sm text-muted-foreground sm:px-4">
               {group.memberProjects.length > 1
@@ -521,7 +523,7 @@ function ProjectDetail({
             </p>
           ) : null}
           <SettingsRow
-            title="Name"
+            title={i18nT("Name")}
             description="The shared name for this project group in the sidebar and thread lists."
             resetAction={
               canResetScratchTitle ? (
@@ -609,7 +611,7 @@ function ProjectDetail({
           {canOrganize ? (
             <>
               <SettingsRow
-                title="Pin"
+                title={i18nT("Pin")}
                 description="Pinned projects come first in project pickers."
                 control={
                   <Switch
@@ -626,7 +628,7 @@ function ProjectDetail({
                 }
               />
               <SettingsRow
-                title="Archive"
+                title={i18nT("Archive")}
                 description={
                   group.archived
                     ? "Hidden from project pickers. Threads and files are kept."
@@ -646,7 +648,7 @@ function ProjectDetail({
                       )
                     }
                   >
-                    {group.archived ? "Unarchive" : "Archive"}
+                    {group.archived ? i18nT("Unarchive") : i18nT("Archive")}
                   </Button>
                 }
               />

@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   getClientSettings,
   updateClientSettings,
@@ -14,6 +15,7 @@ import {
 
 /** Menu body that shows and hides thread details items. The card's context menu and Settings share it. */
 export function ThreadDetailsItemsMenuItems() {
+  const { t: i18nT } = useTranslation();
   const visibility = useClientSettings(resolveThreadDetailsVisibility);
   return (
     <>
@@ -38,7 +40,7 @@ export function ThreadDetailsItemsMenuItems() {
         disabled={isDefaultThreadDetailsVisibility(visibility)}
         onClick={() => updateClientSettings(RESET_THREAD_DETAILS_ITEMS)}
       >
-        Reset to default
+        {i18nT("Reset to default")}
       </MenuItem>
     </>
   );

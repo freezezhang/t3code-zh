@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useState } from "react";
 
 import { Button } from "~/components/ui/button";
@@ -23,6 +24,7 @@ export function PreviewFileNotShown({
   downloadUrl: string | null;
   onOpen: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const host = safeHost(url) ?? url;
   return (
     <div className="scrollbar-gutter-both relative flex h-full min-h-0 w-full overflow-y-auto bg-background">
@@ -42,7 +44,7 @@ export function PreviewFileNotShown({
           </Button>
           {downloadUrl ? (
             <Button type="button" size="sm" render={<a href={downloadUrl} download={fileName} />}>
-              Download
+              {i18nT("Download")}
             </Button>
           ) : null}
         </div>
@@ -52,6 +54,7 @@ export function PreviewFileNotShown({
 }
 
 export function PreviewUnreachable({ url, code, description, onReload, move }: Props) {
+  const { t: i18nT } = useTranslation();
   const [showDetails, setShowDetails] = useState(false);
   const host = safeHost(url) ?? url;
   const friendly = describePreviewError(description);
@@ -93,7 +96,7 @@ export function PreviewUnreachable({ url, code, description, onReload, move }: P
             size="sm"
             onClick={() => setShowDetails((value) => !value)}
           >
-            {showDetails ? "Hide details" : "Details"}
+            {showDetails ? "Hide details" : i18nT("Details")}
           </Button>
           <div className="flex-1" />
           {move ? (

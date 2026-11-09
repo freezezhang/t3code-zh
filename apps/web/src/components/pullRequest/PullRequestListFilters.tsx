@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { Spinner } from "~/components/ui/spinner";
 import type {
   EnvironmentId,
@@ -515,6 +516,7 @@ export function PullRequestFiltersMenu({
   unavailable: ReadonlyMap<string, string>;
   onProject: (projectId: ProjectId | undefined, environmentId: EnvironmentId | undefined) => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const selectedLabels = (filters.labels ?? []).flatMap((group) => group);
   const filterCount = [
     state !== "open",
@@ -645,7 +647,7 @@ export function PullRequestFiltersMenu({
         ) : null}
         <MenuSeparator />
         <PullRequestFilterRadioSubmenu
-          label="Project"
+          label={i18nT("Project")}
           value={projectValue}
           options={projectOptions}
           onChange={(next) => {

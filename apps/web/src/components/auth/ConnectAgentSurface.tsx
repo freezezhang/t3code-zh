@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   type AuthMcpApprovalDecision,
   type AuthMcpApprovalDetails,
@@ -90,6 +91,7 @@ function oneClickApproves(details: AuthMcpApprovalDetails, access: AuthMcpClient
 }
 
 export function ConnectAgentSurface() {
+  const { t: i18nT } = useTranslation();
   const [authorization] = useState(readAuthorizationRequest);
   const [loaded, setLoaded] = useState<Loaded>({ status: "loading" });
   const [access, setAccess] = useState<AuthMcpClientAccess>("read-only");
@@ -257,7 +259,7 @@ export function ConnectAgentSurface() {
 
         <div className="flex flex-wrap gap-2">
           <Button disabled={!canApprove} type="submit">
-            {pending === "approve" ? "Approving…" : "Approve"}
+            {pending === "approve" ? "Approving…" : i18nT("Approve")}
           </Button>
           <Button
             disabled={pending !== null}
@@ -265,7 +267,7 @@ export function ConnectAgentSurface() {
             type="button"
             variant="outline"
           >
-            {pending === "deny" ? "Denying…" : "Deny"}
+            {pending === "deny" ? "Denying…" : i18nT("Deny")}
           </Button>
         </div>
       </form>

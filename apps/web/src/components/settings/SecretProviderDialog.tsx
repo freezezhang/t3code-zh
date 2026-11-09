@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type { EnvironmentId, SecretProviderConfig, SecretProviderId } from "@t3tools/contracts";
 import * as Result from "effect/Result";
 import { useState } from "react";
@@ -35,6 +36,7 @@ export function SecretProviderDialog({
   readonly existingIds: ReadonlySet<string>;
   readonly existing?: { readonly id: SecretProviderId; readonly config: SecretProviderConfig };
 }) {
+  const { t: i18nT } = useTranslation();
   const updateSettings = useUpdateEnvironmentSettings(environmentId);
   const [draft, setDraft] = useState<SecretProviderDraft>(
     existing ? draftFromSecretProvider(existing.config) : { name: "", account: "" },
@@ -84,7 +86,7 @@ export function SecretProviderDialog({
             }}
           >
             <div className="grid gap-1.5">
-              <Label htmlFor="secret-provider-name">Name</Label>
+              <Label htmlFor="secret-provider-name">{i18nT("Name")}</Label>
               <Input
                 id="secret-provider-name"
                 placeholder="Personal"
@@ -108,7 +110,7 @@ export function SecretProviderDialog({
               ) : null}
             </div>
             <div className="grid gap-1.5">
-              <Label htmlFor="secret-provider-account">Account</Label>
+              <Label htmlFor="secret-provider-account">{i18nT("Account")}</Label>
               <Input
                 id="secret-provider-account"
                 placeholder="my.1password.com"
@@ -139,7 +141,7 @@ export function SecretProviderDialog({
         </DialogPanel>
         <DialogFooter variant="bare">
           <Button variant="outline" onClick={onClose}>
-            Cancel
+            {i18nT("Cancel")}
           </Button>
           <Button
             type="submit"

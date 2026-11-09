@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type { DeviceHostSummary, DevicePlatform } from "@t3tools/contracts";
 import {
   Camera,
@@ -48,6 +49,7 @@ export function DeviceControlsRail(props: {
   onClose: () => void;
   onPowerOff: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const { view, handle, controls } = props;
   const popupSide = "left";
   const settings = controls.detail?.settings;
@@ -73,7 +75,7 @@ export function DeviceControlsRail(props: {
           <>
             <RailButton
               tooltipSide={popupSide}
-              label="Back"
+              label={i18nT("Back")}
               disabled={inputDisabled}
               onClick={() => handle?.pressButton("back")}
             >

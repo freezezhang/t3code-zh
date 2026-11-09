@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { Discovery } from "@t3tools/client-runtime/relay";
 import type { EnvironmentId } from "@t3tools/contracts";
 import { useState } from "react";
@@ -26,6 +27,7 @@ export function RemoveT3ConnectEnvironmentDialog({
   readonly onCancel: () => void;
   readonly onConfirm: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const accountPage = useT3ConnectAccountPage();
   const discovery = useRelayEnvironmentDiscovery();
   const registration = environmentId
@@ -62,7 +64,9 @@ export function RemoveT3ConnectEnvironmentDialog({
       >
         <AlertDialogPopup>
           <AlertDialogHeader>
-            <AlertDialogTitle>Remove {shown.label} from this device?</AlertDialogTitle>
+            <AlertDialogTitle>
+              {i18nT("Remove")} {shown.label} from this device?
+            </AlertDialogTitle>
             <AlertDialogDescription>
               This forgets its pairing, credentials, and cached threads here.
             </AlertDialogDescription>
@@ -83,7 +87,9 @@ export function RemoveT3ConnectEnvironmentDialog({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogClose render={<Button variant="outline" />}>Cancel</AlertDialogClose>
+            <AlertDialogClose render={<Button variant="outline" />}>
+              {i18nT("Cancel")}
+            </AlertDialogClose>
             <Button variant="destructive" onClick={onConfirm}>
               Remove from this device
             </Button>

@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { pipe } from "effect/Function";
 import { ACP_REGISTRY_MAX_AGENTS, AuthProvidersManageScope } from "@t3tools/contracts";
 import { readEnvironmentScope, useEnvironmentScope } from "../../state/session";
@@ -260,6 +261,7 @@ function AcpRegistryAgentRow({
   readonly isPreparing: boolean;
   readonly onAdd: (agent: AcpRegistrySearchAgent) => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const progressLabel = agent.distribution === "binary" ? "Downloading" : "Preparing";
   const aboutUrl = agent.website || agent.repository;
   return (
@@ -297,7 +299,9 @@ function AcpRegistryAgentRow({
                   </Button>
                 }
               />
-              <TooltipPopup>About {agent.name}</TooltipPopup>
+              <TooltipPopup>
+                {i18nT("About")} {agent.name}
+              </TooltipPopup>
             </Tooltip>
           ) : null}
           <Button

@@ -1,3 +1,4 @@
+import { useTranslation } from "../i18n";
 import { useParams } from "@tanstack/react-router";
 import { scopeProjectRef } from "@t3tools/client-runtime/environment";
 import {
@@ -91,6 +92,7 @@ export function AddProjectToMachineDialogHost() {
 }
 
 function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRequest }) {
+  const { t: i18nT } = useTranslation();
   const id = useId();
   const project = useProject(request.projectRef);
   const handleNewThread = useNewThreadHandler();
@@ -388,7 +390,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
           </DialogPanel>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={close}>
-              Cancel
+              {i18nT("Cancel")}
             </Button>
             <Button type="submit" disabled={unavailable || submitting}>
               {submitting ? "Starting…" : `Clone to ${target?.label ?? "machine"}`}

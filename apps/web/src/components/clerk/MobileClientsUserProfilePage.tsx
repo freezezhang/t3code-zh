@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type { RelayClientDeviceRecord } from "@t3tools/contracts/relay";
 import { SmartphoneIcon } from "lucide-react";
 
@@ -26,9 +27,10 @@ function MobileClientStatusBadge({
   readonly enabled: boolean;
   readonly label: string;
 }) {
+  const { t: i18nT } = useTranslation();
   return (
     <Badge variant={enabled ? "success" : "outline"}>
-      {label}: {enabled ? "On" : "Off"}
+      {label}: {enabled ? i18nT("On") : i18nT("Off")}
     </Badge>
   );
 }

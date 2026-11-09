@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type { ScopedThreadRef } from "@t3tools/contracts";
 import { MinusIcon, PlusIcon, XIcon } from "lucide-react";
 import { useRef, useState } from "react";
@@ -12,6 +13,7 @@ export function HtmlRenderDialog(props: {
   readonly threadRef?: ScopedThreadRef | undefined;
   readonly onClose: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const [zoom, setZoom] = useState(1);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   return (
@@ -23,11 +25,13 @@ export function HtmlRenderDialog(props: {
         className="row-start-1"
         initialFocus={closeButtonRef}
       >
-        <DialogTitle className="sr-only">Expanded {props.title} preview</DialogTitle>
+        <DialogTitle className="sr-only">
+          {i18nT("Expanded")} {props.title} preview
+        </DialogTitle>
         <div className="relative w-[92vw]">
           <Button
             ref={closeButtonRef}
-            aria-label="Close"
+            aria-label={i18nT("Close")}
             size="icon-xs"
             variant="media-close"
             className="absolute right-0 -top-10 z-20"

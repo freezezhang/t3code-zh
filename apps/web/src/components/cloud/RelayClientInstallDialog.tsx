@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { DownloadIcon } from "lucide-react";
 import { useSyncExternalStore } from "react";
 import type { RelayClientInstallProgressStage } from "@t3tools/contracts";
@@ -32,6 +33,7 @@ const installSteps: ReadonlyArray<{
 ];
 
 export function RelayClientInstallDialog() {
+  const { t: i18nT } = useTranslation();
   const state = useSyncExternalStore(
     subscribeRelayClientInstallDialog,
     readRelayClientInstallDialogState,
@@ -110,7 +112,7 @@ export function RelayClientInstallDialog() {
               variant="outline"
               onClick={() => respondToRelayClientInstallConfirmation(false)}
             >
-              Cancel
+              {i18nT("Cancel")}
             </Button>
             <Button onClick={() => respondToRelayClientInstallConfirmation(true)}>
               Download and install

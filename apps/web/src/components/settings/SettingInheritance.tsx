@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   DEFAULT_SERVER_SETTINGS,
   PROJECT_FILE_BACKED_SETTINGS,
@@ -184,6 +185,7 @@ export function SettingInheritance({
   overridingProjects?: readonly SettingOverridingProject[];
   onClearOverrides?: (entries: readonly ProjectOverrideEntry[]) => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const scopeContext = useOptionalSettingsScope();
   const key = keys[0];
   if (!key || targets.length === 0) return null;
@@ -290,7 +292,7 @@ export function SettingInheritance({
                         layer.effective ? "font-medium text-foreground" : "text-muted-foreground",
                       )}
                     >
-                      {layer.key === "environment" ? "Environment" : layer.label}
+                      {layer.key === "environment" ? i18nT("Environment") : layer.label}
                     </span>
                     <span
                       className={cn(
@@ -343,7 +345,7 @@ export function SettingInheritance({
                           </span>
                           <span className="text-xs text-muted-foreground">
                             {winningLayer?.key === "environment"
-                              ? "Environment"
+                              ? i18nT("Environment")
                               : winningLayer?.label}
                           </span>
                           <ChevronRightIcon
@@ -403,7 +405,7 @@ export function SettingInheritance({
                       )}
                       {onClearOverrides ? (
                         <InlineButton onClick={() => onClearOverrides(overriding)}>
-                          Reset {overriding.length === 1 ? "it" : "all"}
+                          {i18nT("Reset")} {overriding.length === 1 ? "it" : "all"}
                         </InlineButton>
                       ) : null}
                     </div>

@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type {
   EnvironmentId,
   PullRequestAction,
@@ -160,6 +161,7 @@ export function PullRequestResolveConflictsButton({
   unavailable: boolean;
   onResolve: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   return (
     <Tooltip>
       <TooltipTrigger
@@ -170,18 +172,18 @@ export function PullRequestResolveConflictsButton({
               variant="destructive-outline"
               disabled={handoff !== null || unavailable}
               onClick={onResolve}
-              aria-label={handoff === "conflicts" ? "Preparing..." : "Resolve conflicts"}
+              aria-label={handoff === "conflicts" ? "Preparing..." : i18nT("Resolve conflicts")}
             >
               <PullRequestGlyph.conflicting aria-hidden className="size-3.5" />
               <span className="@max-[30rem]/pr-header:hidden">
-                {handoff === "conflicts" ? "Preparing..." : "Resolve conflicts"}
+                {handoff === "conflicts" ? "Preparing..." : i18nT("Resolve conflicts")}
               </span>
             </Button>
           </span>
         }
       />
       <TooltipPopup side="top">
-        {handoff === "conflicts" ? "Preparing..." : "Resolve conflicts"}
+        {handoff === "conflicts" ? "Preparing..." : i18nT("Resolve conflicts")}
       </TooltipPopup>
     </Tooltip>
   );

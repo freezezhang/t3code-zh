@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   isAtomCommandInterrupted,
   settlePromise,
@@ -46,6 +47,7 @@ export function readAntigravityAuthMethod(config: unknown): AntigravityAuthMetho
 }
 
 export function ProviderSetupSection(props: ProviderSetupSectionProps) {
+  const { t: i18nT } = useTranslation();
   return (
     <section
       aria-label="Antigravity setup"
@@ -53,7 +55,7 @@ export function ProviderSetupSection(props: ProviderSetupSectionProps) {
     >
       <SettingsRow
         className="@max-lg/setup:[&>div:first-child]:flex @max-lg/setup:[&>div:first-child]:items-stretch @max-lg/setup:[&>div:first-child]:gap-3"
-        title="Environment"
+        title={i18nT("Environment")}
         description="Device that runs this provider."
         control={
           <div className="flex min-w-0 flex-col gap-2 sm:items-end">

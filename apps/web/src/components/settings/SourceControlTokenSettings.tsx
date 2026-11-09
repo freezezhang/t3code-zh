@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   isSecretReference,
   type EnvironmentId,
@@ -34,6 +35,7 @@ export function SourceControlTokenSettings({
   readonly credentials: SourceControlHostCredentials;
   readonly onSaved: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const { tokens } = useEnvironmentSettings(environmentId, (settings) =>
     readHostCredentialSettings(settings, definition.kind),
   );
@@ -149,7 +151,7 @@ export function SourceControlTokenSettings({
                 disabled={saving}
                 onClick={() => void save(normalizedHost, "")}
               >
-                Remove
+                {i18nT("Remove")}
               </Button>
             ) : null}
             <Button
@@ -157,7 +159,7 @@ export function SourceControlTokenSettings({
               size="xs"
               disabled={!normalizedHost || submission === "" || saving}
             >
-              Save
+              {i18nT("Save")}
             </Button>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   isAtomCommandInterrupted,
   squashAtomCommandFailure,
@@ -40,6 +41,7 @@ export function ProviderAuthenticationSection({
   readonly provider: ServerProvider;
   readonly readOnly: boolean;
 }) {
+  const { t: i18nT } = useTranslation();
   const target = { environmentId, input: { instanceId } };
   const query = useEnvironmentQuery(serverEnvironment.providerAuthState(target));
   const commands = { reportFailure: false, reportDefect: false };
@@ -165,7 +167,7 @@ export function ProviderAuthenticationSection({
 
   return (
     <SettingsRow
-      title="Account"
+      title={i18nT("Account")}
       description={
         signedIn && !active && provider.auth.email?.trim() ? (
           <span>
@@ -274,7 +276,7 @@ export function ProviderAuthenticationSection({
                   )
                 }
               >
-                Cancel
+                {i18nT("Cancel")}
               </Button>
             ) : !active && !needsExternalSetup && provider.setup?.canAuthenticate !== false ? (
               <Button
@@ -321,7 +323,7 @@ export function ProviderAuthenticationSection({
                     });
                 }}
               >
-                Sign out
+                {i18nT("Sign out")}
               </Button>
             ) : null}
           </>
@@ -427,7 +429,7 @@ export function ProviderAuthenticationSection({
                 className="w-fit"
                 disabled={disabled}
               >
-                Connect
+                {i18nT("Connect")}
               </Button>
             </form>
           ) : null}
@@ -467,7 +469,7 @@ export function ProviderAuthenticationSection({
                 className="w-fit"
                 disabled={disabled || !values.callback?.trim()}
               >
-                Continue
+                {i18nT("Continue")}
               </Button>
             </form>
           ) : null}

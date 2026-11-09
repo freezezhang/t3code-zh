@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { AndroidIcon, AppleIcon } from "../Icons";
 import { Button } from "../ui/button";
 import { Popover, PopoverPopup, PopoverTitle, PopoverTrigger } from "../ui/popover";
@@ -21,6 +22,7 @@ const stores = [
 ];
 
 export function MobileAppSettingsRow() {
+  const { t: i18nT } = useTranslation();
   return (
     <SettingsRow
       {...searchableSetting("mobile-app")}
@@ -51,7 +53,7 @@ export function MobileAppSettingsRow() {
                     variant="outline"
                     render={<a href={url} target="_blank" rel="noreferrer noopener" />}
                   >
-                    Open {store}
+                    {i18nT("Open")} {store}
                   </Button>
                 </div>
               </PopoverPopup>

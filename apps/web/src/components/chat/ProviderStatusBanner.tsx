@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   type EnvironmentId,
   type ProviderInstanceId,
@@ -104,6 +105,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
   onOpenProviderSetup?: (instanceId: ProviderInstanceId) => void;
   status: ServerProvider | null;
 }) {
+  const { t: i18nT } = useTranslation();
   const canRefresh = useAtomValue(serverEnvironment.refreshProviders.permissionAtom(environmentId));
   const refreshProviders = useAtomCommand(serverEnvironment.refreshProviders, {
     label: "Refresh provider status",
@@ -171,7 +173,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
                 variant="outline"
               >
                 <RefreshIcon />
-                {isRefreshing ? "Refreshing..." : "Refresh"}
+                {isRefreshing ? "Refreshing..." : i18nT("Refresh")}
               </Button>
             </div>
           </div>

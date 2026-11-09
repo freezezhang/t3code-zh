@@ -1,3 +1,4 @@
+import { useTranslation } from "../i18n";
 import {
   AuthOrchestrationOperateScope,
   type EnvironmentId,
@@ -68,6 +69,7 @@ export function PullRequestThreadDialog({
   onOpenChange,
   onPrepared,
 }: PullRequestThreadDialogProps) {
+  const { t: i18nT } = useTranslation();
   const referenceInputRef = useRef<HTMLInputElement>(null);
   const [reference, setReference] = useState(initialReference ?? "");
   const [referenceDirty, setReferenceDirty] = useState(false);
@@ -274,7 +276,7 @@ export function PullRequestThreadDialog({
             onClick={() => onOpenChange(false)}
             disabled={preparePullRequestThreadAction.isPending}
           >
-            Cancel
+            {i18nT("Cancel")}
           </Button>
           <Button
             type="button"

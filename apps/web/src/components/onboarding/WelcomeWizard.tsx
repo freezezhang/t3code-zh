@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useAuth } from "@clerk/react";
 import { useAtomValue } from "@effect/atom-react";
 import type {
@@ -123,6 +124,7 @@ export function WelcomeWizard({
   readonly resumeEnvironmentId?: EnvironmentId | undefined;
   readonly onDone: (projectRef?: ScopedProjectRef) => void | Promise<void>;
 }) {
+  const { t: i18nT } = useTranslation();
   const [step, setStep] = useState<WizardStep>(resumeEnvironmentId ? "agents" : "connection");
   const { environments } = useEnvironments();
   const [selection, setSelection] = useState<ReadonlySet<EnvironmentId> | null>(null);
@@ -244,7 +246,7 @@ export function WelcomeWizard({
             <div className="flex items-baseline gap-1.5" role="img" aria-label="T3 Code">
               <T3Wordmark className="h-4 w-auto shrink-0" aria-hidden />
               <span className="text-2xl font-medium tracking-tight text-muted-foreground">
-                Code
+                {i18nT("Code")}
               </span>
             </div>
           }
@@ -318,6 +320,7 @@ function ConnectionStep({
   readonly onContinue: () => void;
   readonly onPaired: (environmentId: EnvironmentId) => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const { environments } = useEnvironments();
   const telemetryOff = managedTelemetryOffMessage(usePrimaryManagedPolicy());
   const cloudEnabled = hasCloudPublicConfig();
@@ -374,7 +377,7 @@ function ConnectionStep({
                   </span>
                   <span className="shrink-0 text-xs text-muted-foreground">
                     {!environment.entry.enabled && environment.connection.phase !== "unsupported"
-                      ? "Off"
+                      ? i18nT("Off")
                       : presentSavedCloudEnvironmentConnection(environment.connection).buttonLabel}
                   </span>
                 </span>
@@ -464,7 +467,7 @@ function ConnectionStep({
           disabled={!ready || isPairing}
           onClick={onContinue}
         >
-          Continue
+          {i18nT("Continue")}
           <ArrowRightIcon className="size-3.5" />
         </Button>
       </div>
@@ -682,6 +685,7 @@ function AgentsStep({
   readonly environmentIds: readonly EnvironmentId[];
   readonly onContinue: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const { environments } = useEnvironments();
   return (
     <StepShell
@@ -704,7 +708,7 @@ function AgentsStep({
       </ScrollArea>
       <div className="mt-6 flex justify-end">
         <Button autoFocus onClick={onContinue}>
-          Continue
+          {i18nT("Continue")}
           <ArrowRightIcon className="size-3.5" />
         </Button>
       </div>
@@ -982,6 +986,7 @@ function AgentCard({
   readonly terminalAvailable: boolean;
   readonly onOpenTerminal: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const meta = providerClients.get(ProviderDriverKind.make(driver));
   const displayName =
     provider?.displayName || (driver === "claudeAgent" ? "Claude Code" : (meta?.label ?? driver));
@@ -1009,9 +1014,9 @@ function AgentCard({
             Ready
           </span>
         ) : providerState === "checking" ? (
-          <span className="text-xs text-muted-foreground">Checking...</span>
+          <span className="text-xs text-muted-foreground">{i18nT("Checking...")}</span>
         ) : providerState === "disabled" ? (
-          <span className="text-xs text-muted-foreground">Disabled</span>
+          <span className="text-xs text-muted-foreground">{i18nT("Disabled")}</span>
         ) : providerState === "attention" ? (
           <span className="text-xs text-muted-foreground">{summary.headline}</span>
         ) : (
@@ -1022,7 +1027,7 @@ function AgentCard({
             disabled={terminalOpen || !terminalAvailable}
           >
             <TerminalIcon className="size-3.5" />
-            {providerState === "signIn" ? "Sign in" : "Install"}
+            {providerState === "signIn" ? i18nT("Sign in") : "Install"}
           </Button>
         )}
       </div>
@@ -1037,6 +1042,7 @@ function AgentInstallTerminal({
   readonly session: AgentTerminalSession;
   readonly onClose: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const { command, cwd, driver, environmentId, keybindings, providerInstanceId } = session;
   const canOperateTerminal = useEnvironmentScope(environmentId, AuthTerminalOperateScope);
   const [advancedTypography] = useLocalStorage(
@@ -1139,8 +1145,8 @@ function AgentInstallTerminal({
             "This connection cannot control terminals."
           ) : setupState === "writeFailed" ? (
             <>
-              Run <code className="rounded bg-muted px-1 font-mono">{command}</code> in this
-              terminal.
+              {i18nT("Run")} <code className="rounded bg-muted px-1 font-mono">{command}</code> in
+              this terminal.
             </>
           ) : setupState === "ready" ? (
             "Review the command, then press Enter to run it."
@@ -1162,11 +1168,11 @@ function AgentInstallTerminal({
                 }
               }}
             >
-              Retry
+              {i18nT("Retry")}
             </Button>
           ) : null}
           <Button size="xs" variant="ghost-muted" onClick={onClose}>
-            Close
+            {i18nT("Close")}
           </Button>
         </div>
       </div>
@@ -1218,6 +1224,7 @@ function ImportStep({
     importedThreadCount?: number,
   ) => Promise<boolean>;
 }) {
+  const { t: i18nT } = useTranslation();
   const { environments } = useEnvironments();
   const writableEnvironments = useEnvironmentsWithScope(scans, AuthOrchestrationOperateScope);
   const createProject = useAtomCommand(projectEnvironment.create, { reportFailure: false });
@@ -1474,7 +1481,7 @@ function ImportStep({
               disabled={isImporting || selected.length === candidates.length}
               onClick={() => setSelectedKeys(new Set(candidates.map((item) => item.key)))}
             >
-              Select all
+              {i18nT("Select all")}
             </Button>
             <Button
               variant="ghost"
@@ -1517,7 +1524,7 @@ function ImportStep({
                   >
                     <span>Could not check projects. {scan.error}</span>
                     <Button variant="ghost" size="sm" onClick={scan.refresh}>
-                      Retry
+                      {i18nT("Retry")}
                     </Button>
                   </div>
                 ) : scanCandidates.length === 0 ? (

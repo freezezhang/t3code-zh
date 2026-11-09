@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { findErrorTraceId } from "@t3tools/client-runtime/errors";
 import {
   type EnvironmentConnectionPresentation,
@@ -89,6 +90,7 @@ export function CloudEnvironmentConnectRows({
     readonly onChange: (environmentId: EnvironmentId, selected: boolean) => void;
   };
 }) {
+  const { t: i18nT } = useTranslation();
   const environmentsState = useRelayEnvironmentDiscovery();
   const registerEnvironment = useAtomCommand(environmentCatalog.register, {
     reportFailure: false,
@@ -473,7 +475,7 @@ export function CloudEnvironmentConnectRows({
             <Tooltip>
               <TooltipTrigger render={<span className="inline-flex" tabIndex={0} />}>
                 <Button size="sm" disabled>
-                  Add
+                  {i18nT("Add")}
                 </Button>
               </TooltipTrigger>
               <TooltipPopup>{unsupportedDetail ?? "Client not supported"}</TooltipPopup>

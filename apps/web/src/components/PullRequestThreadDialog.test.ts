@@ -35,6 +35,7 @@ vi.mock("react", async (importOriginal) => ({
     return [state.hookValues[index], (value: unknown) => (state.hookValues[index] = value)];
   },
   useRef: (current: unknown) => ({ current }),
+  useSyncExternalStore: (_subscribe: unknown, getSnapshot: () => unknown) => getSnapshot(),
   useEffect: () => {},
 }));
 vi.mock("@tanstack/react-pacer", () => ({

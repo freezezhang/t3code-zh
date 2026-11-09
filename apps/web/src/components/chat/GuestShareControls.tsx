@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useAtomValue } from "@effect/atom-react";
 import {
   isAtomCommandInterrupted,
@@ -70,6 +71,7 @@ function GuestShareDialog({
   readonly threadRef: ScopedThreadRef;
   readonly onClose: () => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const activeShare = useThreadGuestShare(threadRef);
   const canCreate = useAtomValue(
     serverEnvironment.createGuestShare.permissionAtom(threadRef.environmentId),
@@ -127,7 +129,7 @@ function GuestShareDialog({
               />
               <Button size="sm" variant="outline" onClick={() => copyToClipboard(state.url)}>
                 {isCopied ? <CheckIcon /> : <CopyIcon />}
-                {isCopied ? "Copied" : "Copy"}
+                {isCopied ? i18nT("Copied") : i18nT("Copy")}
               </Button>
             </div>
           ) : (
@@ -146,7 +148,7 @@ function GuestShareDialog({
         <DialogFooter>
           {state.status === "created" ? (
             <Button size="sm" onClick={onClose}>
-              Done
+              {i18nT("Done")}
             </Button>
           ) : (
             <>
@@ -156,7 +158,7 @@ function GuestShareDialog({
                 onClick={onClose}
                 disabled={state.status === "creating"}
               >
-                Cancel
+                {i18nT("Cancel")}
               </Button>
               <Button
                 size="sm"
@@ -226,6 +228,7 @@ export function GuestPendingMessages({
   readonly onImageExpand: (preview: ExpandedImagePreview) => void;
   readonly onFileOpen: (attachment: ChatFileAttachment) => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const share = useThreadGuestShare(threadRef);
   const canOperate = useEnvironmentScope(threadRef.environmentId, AuthOrchestrationOperateScope);
   const resolveGuestMessage = useOrchestrationCommand(threadEnvironment.resolveGuestMessage, {
@@ -314,7 +317,7 @@ export function GuestPendingMessages({
                   aria-label={`Send message from ${guestName}`}
                   onClick={() => void resolve(message.id, "send")}
                 >
-                  Send
+                  {i18nT("Send")}
                 </Button>
               </div>
             ) : null}

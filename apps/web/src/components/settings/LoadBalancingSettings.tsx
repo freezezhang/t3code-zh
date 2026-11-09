@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { resolveEnvironmentMachineKind } from "@t3tools/contracts";
 
 import {
@@ -49,6 +50,7 @@ export function LoadBalancingSettings({
 }: {
   environments: ReadonlyArray<EnvironmentPresentation>;
 }) {
+  const { t: i18nT } = useTranslation();
   const settings = useClientSettings((current) => ({
     loadBalancingEnabled: current.loadBalancingEnabled,
     loadBalancingWeights: current.loadBalancingWeights,
@@ -65,7 +67,7 @@ export function LoadBalancingSettings({
       summary={
         settings.loadBalancingEnabled
           ? summarizeLoadPreferences(environments, settings.loadBalancingWeights)
-          : "Off"
+          : i18nT("Off")
       }
       control={
         <Switch

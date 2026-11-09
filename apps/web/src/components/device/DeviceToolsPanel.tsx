@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type { DeviceHubAccess } from "@t3tools/client-runtime/state/deviceHubAccess";
 import type { DevicePermission, DeviceSummary, DeviceTextSize } from "@t3tools/contracts";
 import { ChevronDown, X } from "lucide-react";
@@ -86,6 +87,7 @@ export function DeviceToolsPanel(props: {
   readonly onClose: () => void;
   readonly className?: string;
 }) {
+  const { t: i18nT } = useTranslation();
   const { device, controls } = props;
   const { detail, pending, error, foregroundApp, disabled, act } = controls;
   const settings = detail?.settings;
@@ -165,9 +167,9 @@ export function DeviceToolsPanel(props: {
         </Section>
 
         <Section title={isIos ? "Simulator" : "Emulator"}>
-          <Row label="Appearance">
+          <Row label={i18nT("Appearance")}>
             <ToggleGroup
-              aria-label="Appearance"
+              aria-label={i18nT("Appearance")}
               value={settings?.appearance ? [settings.appearance] : []}
               disabled={disabled}
               onValueChange={(value) => {
@@ -176,8 +178,8 @@ export function DeviceToolsPanel(props: {
                   void act({ type: "setAppearance", value: next });
               }}
             >
-              <Toggle value="light">Light</Toggle>
-              <Toggle value="dark">Dark</Toggle>
+              <Toggle value="light">{i18nT("Light")}</Toggle>
+              <Toggle value="dark">{i18nT("Dark")}</Toggle>
             </ToggleGroup>
           </Row>
           <Row label="Text size">
@@ -203,7 +205,7 @@ export function DeviceToolsPanel(props: {
                     }
                   }}
                 >
-                  <Toggle value="clear">Clear</Toggle>
+                  <Toggle value="clear">{i18nT("Clear")}</Toggle>
                   <Toggle value="tinted">Tinted</Toggle>
                 </ToggleGroup>
               </Row>
@@ -450,6 +452,7 @@ function LocationSection(props: {
   readonly onSet: (latitude: number, longitude: number) => Promise<unknown>;
   readonly onClear: () => Promise<unknown>;
 }) {
+  const { t: i18nT } = useTranslation();
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const parsed = { latitude: Number(latitude), longitude: Number(longitude) };
@@ -526,7 +529,7 @@ function LocationSection(props: {
               void props.onClear();
             }}
           >
-            Clear
+            {i18nT("Clear")}
           </Button>
         ) : null}
       </div>
@@ -545,13 +548,14 @@ function PermissionsSection(props: {
     decision: "grant" | "revoke" | "reset",
   ) => Promise<unknown>;
 }) {
+  const { t: i18nT } = useTranslation();
   const [appId, setAppId] = useState("");
   const [permission, setPermission] = useState<DevicePermission>("camera");
   const resolvedAppId = appId.trim() || props.defaultAppId;
   const decide = (decision: "grant" | "revoke" | "reset") =>
     void props.onDecide(resolvedAppId, permission, decision);
   return (
-    <Section title="Permissions">
+    <Section title={i18nT("Permissions")}>
       <Input
         size="compact"
         font="mono"
@@ -594,7 +598,7 @@ function PermissionsSection(props: {
             disabled={props.disabled || !resolvedAppId}
             onClick={() => decide("reset")}
           >
-            Reset
+            {i18nT("Reset")}
           </Button>
         ) : null}
       </div>

@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   AuthOrchestrationOperateScope,
   AuthProvidersManageScope,
@@ -77,6 +78,7 @@ export function AcpSessionManagementSection(props: {
   readonly projects: ReadonlyArray<AcpSessionProject>;
   readonly readOnly: boolean;
 }) {
+  const { t: i18nT } = useTranslation();
   const canOperate = useEnvironmentScope(props.environmentId, AuthOrchestrationOperateScope);
   const canRead = useEnvironmentScope(props.environmentId, AuthOrchestrationReadScope);
   const [projectId, setProjectId] = useState<ProjectId | null>(props.projects[0]?.id ?? null);
@@ -377,7 +379,7 @@ export function AcpSessionManagementSection(props: {
                   disabled={!canRead || loading || projectId === null}
                   onClick={() => void loadSessions()}
                 >
-                  {loading ? "Loading" : sessions.length === 0 ? "List sessions" : "Refresh"}
+                  {loading ? i18nT("Loading") : sessions.length === 0 ? "List sessions" : "Refresh"}
                 </Button>
               </>
             ) : null}
@@ -432,7 +434,7 @@ export function AcpSessionManagementSection(props: {
                           }
                           onClick={() => void deleteNativeSession(session)}
                         >
-                          {deletingSessionId === session.sessionId ? "Deleting" : "Delete"}
+                          {deletingSessionId === session.sessionId ? "Deleting" : i18nT("Delete")}
                         </Button>
                       ) : null}
                     </div>
@@ -450,7 +452,7 @@ export function AcpSessionManagementSection(props: {
                 disabled={!canRead || loading}
                 onClick={() => void loadSessions(nextCursor)}
               >
-                {loading ? "Loading" : "Load more"}
+                {loading ? i18nT("Loading") : "Load more"}
               </Button>
             ) : null}
           </>
@@ -475,7 +477,11 @@ export function AcpSessionManagementSection(props: {
               }
               onClick={() => void loadProviders()}
             >
-              {loadingProviders ? "Loading" : providers.length === 0 ? "List providers" : "Refresh"}
+              {loadingProviders
+                ? i18nT("Loading")
+                : providers.length === 0
+                  ? "List providers"
+                  : "Refresh"}
             </Button>
           </div>
 
@@ -526,7 +532,7 @@ export function AcpSessionManagementSection(props: {
                           {provider.providerId}
                         </p>
                         <p className="text-3xs text-muted-foreground">
-                          {provider.current === null ? "Disabled" : "Configured"}
+                          {provider.current === null ? i18nT("Disabled") : "Configured"}
                           {provider.required ? " · Required" : ""}
                         </p>
                       </div>
@@ -544,7 +550,7 @@ export function AcpSessionManagementSection(props: {
                           }
                           onClick={() => void saveProvider(provider)}
                         >
-                          {savingProviderId === provider.providerId ? "Saving" : "Save"}
+                          {savingProviderId === provider.providerId ? "Saving" : i18nT("Save")}
                         </Button>
                         {!provider.required && provider.current !== null ? (
                           <Button

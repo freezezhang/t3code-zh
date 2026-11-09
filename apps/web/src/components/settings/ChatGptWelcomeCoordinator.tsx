@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useAtomValue } from "@effect/atom-react";
 import { usesChatGptSharing } from "@t3tools/shared/usageLimits";
 import { useState } from "react";
@@ -27,6 +28,7 @@ function readAcknowledgedProfiles(): string[] {
 }
 
 export function ChatGptWelcomeCoordinator() {
+  const { t: i18nT } = useTranslation();
   const presentations = useAtomValue(environmentPresentations.presentationsAtom);
   const providersByEnvironment = useAtomValue(environmentPresentations.providersByEnvironmentAtom);
   const [acknowledged, setAcknowledged] = useState(readAcknowledgedProfiles);
@@ -75,7 +77,7 @@ export function ChatGptWelcomeCoordinator() {
         </DialogHeader>
         <DialogFooter>
           <ChatGptUsageButton />
-          <Button onClick={dismiss}>Continue</Button>
+          <Button onClick={dismiss}>{i18nT("Continue")}</Button>
         </DialogFooter>
       </DialogPopup>
     </Dialog>

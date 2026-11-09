@@ -1,3 +1,4 @@
+import { useTranslation } from "../i18n";
 import {
   createPreviewFramePainter,
   createPreviewStreamClient,
@@ -154,6 +155,7 @@ export function ServerBrowserSurface(props: {
   readonly pdfUrl?: string | null;
   readonly ref?: Ref<ServerBrowserHandle>;
 }) {
+  const { t: i18nT } = useTranslation();
   const {
     environmentId,
     threadId,
@@ -845,7 +847,7 @@ export function ServerBrowserSurface(props: {
             />
             <div className="flex justify-end gap-2">
               <Button variant="outline" size="sm" onClick={() => answerFileChooser([])}>
-                Cancel
+                {i18nT("Cancel")}
               </Button>
               <Button size="sm" onClick={() => fileInputRef.current?.click()}>
                 Choose {fileChooser.multiple ? "files" : "file"}
@@ -923,7 +925,7 @@ export function ServerBrowserSurface(props: {
               refreshPreviewStreamAccess(environmentId);
             }}
           >
-            Reconnect
+            {i18nT("Reconnect")}
           </Button>
         </div>
       ) : null}

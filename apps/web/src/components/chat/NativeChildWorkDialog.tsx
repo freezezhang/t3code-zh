@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type {
   EnvironmentId,
   OrchestrationV2GetNativeChildWorkResult,
@@ -53,6 +54,7 @@ function NativeChildWorkContent(props: {
   readonly environmentId: EnvironmentId;
   readonly threadId: ThreadId;
 }) {
+  const { t: i18nT } = useTranslation();
   const query = useEnvironmentQuery<OrchestrationV2GetNativeChildWorkResult, unknown>(
     orchestrationEnvironment.nativeChildWork({
       environmentId: props.environmentId,
@@ -66,7 +68,7 @@ function NativeChildWorkContent(props: {
         {query.error !== null ? (
           <p className="text-sm text-destructive-foreground">{query.error}</p>
         ) : children === undefined ? (
-          <p className="text-sm text-muted-foreground">Loading…</p>
+          <p className="text-sm text-muted-foreground">{i18nT("Loading…")}</p>
         ) : children.length === 0 ? (
           <p className="text-sm text-muted-foreground">
             The provider has no record of which subagents this call started.
@@ -77,7 +79,7 @@ function NativeChildWorkContent(props: {
       </DialogPanel>
       <DialogFooter variant="bare">
         <Button size="sm" variant="outline" disabled={query.isPending} onClick={query.refresh}>
-          Refresh
+          {i18nT("Refresh")}
         </Button>
       </DialogFooter>
     </>

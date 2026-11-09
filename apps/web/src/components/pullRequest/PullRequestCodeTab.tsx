@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   capitalizeTerm,
   sourceControlClients,
@@ -358,6 +359,7 @@ function PullRequestCodeTab({
   backgroundRefreshToken?: number;
   revealRequest?: { readonly path: string; readonly nonce: number } | null;
 }) {
+  const { t: i18nT } = useTranslation();
   const resolvedTheme = useRenderedAppearance();
   // Initialize the shared tokenizer and workers while the diff request is still pending.
   useDiffWorkerPool();
@@ -866,7 +868,7 @@ function PullRequestCodeTab({
           <>
             <span>The rest of this diff could not be loaded.</span>
             <Button size="xs" variant="outline" onClick={() => diffQuery.refresh()}>
-              Retry
+              {i18nT("Retry")}
             </Button>
           </>
         ) : diffQuery.isPending ? (
@@ -1238,7 +1240,7 @@ function PullRequestCodeTab({
               checked={ignoreWhitespace}
               onCheckedChange={(checked) => changeIgnoreWhitespace(checked)}
             >
-              Hide whitespace changes
+              {i18nT("Hide whitespace changes")}
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
               checked={wordWrap}
@@ -1256,10 +1258,10 @@ function PullRequestCodeTab({
               }}
             >
               <DropdownMenuRadioItem value="stacked" closeOnClick>
-                Stacked
+                {i18nT("Stacked")}
               </DropdownMenuRadioItem>
               <DropdownMenuRadioItem value="split" closeOnClick>
-                Split
+                {i18nT("Split")}
               </DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
           </DropdownMenuContent>
@@ -1270,7 +1272,7 @@ function PullRequestCodeTab({
               render={
                 <Toggle
                   aria-label={
-                    ignoreWhitespace ? "Show whitespace changes" : "Hide whitespace changes"
+                    ignoreWhitespace ? "Show whitespace changes" : i18nT("Hide whitespace changes")
                   }
                   variant="ghost"
                   size="sm"
@@ -1282,11 +1284,11 @@ function PullRequestCodeTab({
               <PilcrowIcon className="size-3.5" />
             </TooltipTrigger>
             <TooltipPopup side="top">
-              {ignoreWhitespace ? "Show whitespace changes" : "Hide whitespace changes"}
+              {ignoreWhitespace ? "Show whitespace changes" : i18nT("Hide whitespace changes")}
             </TooltipPopup>
           </Tooltip>
           <ToggleGroup
-            aria-label="Diff layout"
+            aria-label={i18nT("Diff layout")}
             className="shrink-0"
             variant="segmented"
             value={[diffLayout]}
@@ -1582,7 +1584,7 @@ function PullRequestCodeTab({
                       onClick={diffQuery.error !== null ? () => diffQuery.refresh() : loadNextSlice}
                     >
                       {diffQuery.error !== null
-                        ? "Retry"
+                        ? i18nT("Retry")
                         : diffQuery.isPending
                           ? "Loading more files..."
                           : "Load more files"}

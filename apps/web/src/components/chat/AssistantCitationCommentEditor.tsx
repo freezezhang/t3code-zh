@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { ASSISTANT_CITATION_MAX_COMMENT_LENGTH, type AssistantCitation } from "@t3tools/contracts";
 import { useState, type Ref } from "react";
 import { textDirection } from "~/textDirection";
@@ -19,6 +20,7 @@ export function AssistantCitationCommentEditor({
   onCancel: () => void;
   onDraftChange?: (comment: string) => void;
 }) {
+  const { t: i18nT } = useTranslation();
   const [comment, setComment] = useState(citation.comment ?? "");
   const commentTooLong = comment.length > ASSISTANT_CITATION_MAX_COMMENT_LENGTH;
   const submit = () => {
@@ -88,7 +90,7 @@ export function AssistantCitationCommentEditor({
           onPointerDown={(event) => event.preventDefault()}
           onClick={onCancel}
         >
-          Cancel
+          {i18nT("Cancel")}
         </Button>
         <Button
           size="xs"
@@ -96,7 +98,7 @@ export function AssistantCitationCommentEditor({
           onPointerDown={(event) => event.preventDefault()}
           onClick={submit}
         >
-          {commentTooLong ? "Shorten comment" : "Save"}
+          {commentTooLong ? "Shorten comment" : i18nT("Save")}
         </Button>
       </div>
     </div>

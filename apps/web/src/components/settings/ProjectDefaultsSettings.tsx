@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import {
   DEFAULT_SERVER_SETTINGS,
   type ModelSelection,
@@ -53,6 +54,7 @@ function isWorktreeSubmodules(value: string | null): value is WorktreeSubmodules
 }
 
 export function ProjectDefaultsSettings({ category }: { category: ProjectSettingsCategory }) {
+  const { t: i18nT } = useTranslation();
   const { scope, target, targets, connectedEnvironments } = useSettingsScope();
   const settings = useScopedSettings();
   const clientSettings = useClientSettings();
@@ -135,7 +137,7 @@ export function ProjectDefaultsSettings({ category }: { category: ProjectSetting
       settingKeys={["defaultModelSelection"]}
       mixed={mixedModel}
       id="default-model"
-      title="Model"
+      title={i18nT("Model")}
       description={
         isProjectScope
           ? "Model for new threads in this project."
@@ -327,7 +329,7 @@ export function ProjectDefaultsSettings({ category }: { category: ProjectSetting
   return (
     <SettingsSection
       id={category === "source-control" ? "source-control-defaults" : "project-defaults"}
-      title={category === "source-control" ? "Repositories" : "New threads"}
+      title={category === "source-control" ? "Repositories" : i18nT("New threads")}
     >
       {category === "project" ? (
         <>
