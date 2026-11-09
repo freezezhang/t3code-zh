@@ -19,7 +19,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: macos-zh-${{ github.ref }}
+  group: macos-zh-${{ github.ref }}-${{ inputs.architecture || 'both' }}
   cancel-in-progress: false
 
 jobs:
@@ -90,6 +90,18 @@ jobs:
         env:
           T3CODE_DESKTOP_SIGNED: "false"
         run: bash scripts/build-macos-zh.sh "${{ matrix.arch }}"
+
+      - name: Verify universal executable architectures
+        if: matrix.arch == 'universal'
+        run: |
+          mount_dir="$RUNNER_TEMP/t3-universal-check"
+          mkdir -p "$mount_dir"
+          trap 'hdiutil detach "$mount_dir" -quiet || true' EXIT
+          hdiutil attach -readonly -nobrowse -mountpoint "$mount_dir" release/*-universal.dmg
+          app=("$mount_dir"/*.app)
+          executable_name=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "${app[0]}/Contents/Info.plist")
+          lipo -verify_arch x86_64 arm64 "${app[0]}/Contents/MacOS/$executable_name"
+          lipo -archs "${app[0]}/Contents/MacOS/$executable_name"
 
       - name: Attach installer to draft release
         env:
