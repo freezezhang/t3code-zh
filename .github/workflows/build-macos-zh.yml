@@ -2,6 +2,16 @@ name: Build macOS Chinese Edition
 
 on:
   workflow_dispatch:
+    inputs:
+      architecture:
+        description: Architecture to build
+        type: choice
+        default: both
+        options: [both, arm64, x64]
+      release_tag:
+        description: Existing draft release tag (optional)
+        type: string
+        default: ""
   push:
     branches: [feat/zh-cn-v0.1.7]
 
@@ -18,7 +28,20 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.release.outputs.tag }}
+      matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
+      - name: Select standard runners
+        id: matrix
+        env:
+          ARCHITECTURE: ${{ inputs.architecture || 'both' }}
+        run: |
+          case "$ARCHITECTURE" in
+            arm64) matrix='{"include":[{"arch":"arm64","runner":"macos-26"}]}' ;;
+            x64) matrix='{"include":[{"arch":"x64","runner":"macos-15-intel"}]}' ;;
+            both) matrix='{"include":[{"arch":"arm64","runner":"macos-26"},{"arch":"x64","runner":"macos-15-intel"}]}' ;;
+            *) exit 1 ;;
+          esac
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
       - name: Create draft for installers
         id: release
         env:
@@ -26,23 +49,22 @@ jobs:
           GH_REPO: ${{ github.repository }}
           BUILD_SHA: ${{ github.sha }}
           RUN_NUMBER: ${{ github.run_number }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
         run: |
-          tag="v0.1.7-zh.1-build.${RUN_NUMBER}"
-          gh release create "$tag" --target "$BUILD_SHA" --draft \
-            --title "T3 Code 简体中文 v0.1.7-zh.1 (build ${RUN_NUMBER})" \
-            --notes 'Based on upstream v0.1.7. Includes English / 简体中文 switching. Unsigned, unnotarized macOS DMGs: arm64 for Apple Silicon, x64 for Intel. This release stays a draft for review.'
+          tag="${RELEASE_TAG:-v0.1.7-zh.1-build.${RUN_NUMBER}}"
+          if ! gh release view "$tag" >/dev/null 2>&1; then
+            gh release create "$tag" --target "$BUILD_SHA" --draft \
+              --title "T3 Code 简体中文 v0.1.7-zh.1 (build ${RUN_NUMBER})" \
+              --notes 'Based on upstream v0.1.7. Includes English / 简体中文 switching. Unsigned, unnotarized macOS DMGs: arm64 for Apple Silicon, x64 for Intel. This release stays a draft for review.'
+          fi
+          test "$(gh release view "$tag" --json isDraft --jq .isDraft)" = true
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
   build:
     needs: prepare
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - arch: arm64
-            runner: macos-15
-          - arch: x64
-            runner: macos-15-intel
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 60
     steps:
