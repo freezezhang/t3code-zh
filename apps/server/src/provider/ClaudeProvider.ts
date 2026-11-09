@@ -38,6 +38,7 @@ import {
 import { resolveClaudeSdkExecutablePath } from "./Drivers/ClaudeExecutable.ts";
 import { hasClaudeManagedMcpConfig, makeClaudeEnvironment } from "./Drivers/ClaudeHome.ts";
 import { discoverClaudeSkills, readClaudeSettingsEnv } from "./Drivers/ClaudeSkills.ts";
+import { mergeClaudeModelPicker, readClaudeModelPicker } from "./Drivers/ClaudeModels.ts";
 import type { ProviderWorkspaceSnapshot } from "@t3tools/provider-core/server/driver";
 import { makeUnavailableUsageLimits } from "@t3tools/provider-core/server/usageLimits";
 import {
@@ -466,8 +467,13 @@ export const checkClaudeProviderStatus = Effect.fn("checkClaudeProviderStatus")(
 > {
   const resolvedEnvironment = environment ?? process.env;
   const checkedAt = DateTime.formatIso(yield* DateTime.now);
+  const picker = yield* readClaudeModelPicker(claudeSettings, resolvedEnvironment, cwd);
   const allModels = providerModelsFromSettings(
-    modelCatalog.models.map((entry) => entry.model),
+    mergeClaudeModelPicker(
+      modelCatalog.models.map((entry) => entry.model),
+      picker,
+      claudeSettings.customModels,
+    ),
     claudeSettings.customModels,
     DEFAULT_CLAUDE_MODEL_CAPABILITIES,
   );
@@ -558,7 +564,11 @@ export const checkClaudeProviderStatus = Effect.fn("checkClaudeProviderStatus")(
   }
 
   const models = providerModelsFromSettings(
-    resolveClaudeModelsForVersion(modelCatalog, parsedVersion),
+    mergeClaudeModelPicker(
+      resolveClaudeModelsForVersion(modelCatalog, parsedVersion),
+      picker,
+      claudeSettings.customModels,
+    ),
     claudeSettings.customModels,
     DEFAULT_CLAUDE_MODEL_CAPABILITIES,
   );

@@ -135,3 +135,17 @@ config directory and put the router's endpoint and credential variables in that
 instance's **Environment variables**. The router must run where the environment
 can reach it. Follow the [Claude Code Router instructions](https://github.com/musistudio/claude-code-router)
 for its installation and routing configuration.
+
+## Magpie and Claude's model picker
+
+T3 Code automatically reads `modelPicker.options` from the selected Claude
+instance's user `settings.json`. When Magpie connects Claude Code and writes its
+models there, those models also appear in T3 Code on connected desktop, web, and
+mobile clients. Keep Magpie running on the machine that runs the Claude instance.
+
+The list is reread when T3 checks the provider's status. Restart the T3 backend
+if you need to reload it immediately. Explicitly saved T3 custom models take
+precedence over discovered models with the same ID. Magpie's
+`replaceBuiltInOptions` setting replaces the built-in list when it contains valid
+models; a missing or malformed file falls back to the normal list. T3 does not
+rewrite Claude's settings or import credentials from the model list.

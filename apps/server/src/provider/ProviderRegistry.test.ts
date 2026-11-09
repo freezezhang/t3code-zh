@@ -3038,6 +3038,47 @@ it.layer(
   });
 
   describe("checkClaudeProviderStatus", () => {
+    it.effect(
+      "publishes models discovered from the instance's Claude picker without saving custom settings",
+      () =>
+        Effect.gen(function* () {
+          const fs = yield* FileSystem.FileSystem;
+          const path = yield* Path.Path;
+          const homePath = yield* fs.makeTempDirectoryScoped();
+          const settingsPath = path.join(homePath, "settings.json");
+          yield* fs.writeFileString(
+            settingsPath,
+            JSON.stringify({
+              modelPicker: {
+                replaceBuiltInOptions: true,
+                options: [
+                  { model: "group/proxy[1m]", label: "Magpie group" },
+                  { model: "manual/model", label: "From proxy" },
+                ],
+              },
+            }),
+          );
+          const config = {
+            ...defaultClaudeSettings,
+            enabled: false,
+            homePath,
+            customModels: [{ slug: "manual/model", name: "My model" }],
+          };
+          const first = yield* checkClaudeProviderStatus(config, undefined, {});
+          assert.deepEqual(
+            first.models.map(({ slug, name }) => ({ slug, name })),
+            [
+              { slug: "group/proxy[1m]", name: "Magpie group" },
+              { slug: "manual/model", name: "My model" },
+            ],
+          );
+          assert.strictEqual(first.models[0]?.isCustom, false);
+          yield* fs.writeFileString(settingsPath, "{}");
+          const next = yield* checkClaudeProviderStatus(config, undefined, {});
+          assert.isFalse(next.models.some((model) => model.slug === "group/proxy[1m]"));
+          assert.isTrue(next.models.some((model) => model.slug === "manual/model"));
+        }),
+    );
     it.effect("reports a logged-out CLI as unauthenticated", () =>
       Effect.gen(function* () {
         const status = yield* checkClaudeProviderStatus(
