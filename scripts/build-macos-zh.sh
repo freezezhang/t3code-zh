@@ -13,8 +13,8 @@ if [[ ${#architectures[@]} -eq 0 ]]; then
   architectures=(arm64 x64)
 fi
 for architecture in "${architectures[@]}"; do
-  if [[ "$architecture" != "arm64" && "$architecture" != "x64" && "$architecture" != "universal" ]]; then
-    echo "Usage: bash scripts/build-macos-zh.sh [arm64] [x64] [universal]" >&2
+  if [[ "$architecture" != "arm64" && "$architecture" != "x64" ]]; then
+    echo "Usage: bash scripts/build-macos-zh.sh [arm64] [x64]" >&2
     exit 1
   fi
 done
@@ -37,9 +37,7 @@ export T3CODE_DESKTOP_UPDATE_REPOSITORY=freezezhang/t3code-zh
 vp install --filter=t3... --filter=@t3tools/web... --filter=@t3tools/desktop... --filter=@t3tools/scripts...
 
 for architecture in "${architectures[@]}"; do
-  if [[ "$architecture" == "universal" ]]; then
-    rustup target add aarch64-apple-darwin x86_64-apple-darwin
-  elif [[ "$architecture" == "arm64" ]]; then
+  if [[ "$architecture" == "arm64" ]]; then
     rustup target add aarch64-apple-darwin
   else
     rustup target add x86_64-apple-darwin
