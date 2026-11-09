@@ -21,6 +21,12 @@ bash scripts/build-macos-zh.sh x64
 
 Linux 可以构建网页和通用 JavaScript，但最终的 macOS DMG 打包及运行验证需要在 Mac 上完成。
 
+## 公开仓库的免费 macOS 构建
+
+本 Fork 的 `Build macOS Chinese Edition` 工作流使用标准 `macos-15` 和 `macos-15-intel` runner。[GitHub 的计费说明](https://docs.github.com/en/billing/concepts/product-billing/github-actions)规定，公开仓库的标准 runner 不消耗私有仓库的计算额度；大型 runner 不适用此规则。工作流仅允许在公开的 `freezezhang/t3code-zh` 中运行。
+
+启用仓库的 Actions 后，推送汉化分支会触发构建。产物直接上传到 Release 草稿，不占 Actions artifact 存储额度，也不会自动发布正式版。若工作流尚未启用，先启用它，再推送一次分支以触发构建。
+
 ## 网页生产包
 
 ```bash

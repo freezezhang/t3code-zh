@@ -1,0 +1,78 @@
+name: Build macOS Chinese Edition
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/zh-cn-v0.1.7]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: macos-zh-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    if: github.repository == 'freezezhang/t3code-zh' && github.event.repository.private == false
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.release.outputs.tag }}
+    steps:
+      - name: Create draft for installers
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          BUILD_SHA: ${{ github.sha }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          tag="v0.1.7-zh.1-build.${RUN_NUMBER}"
+          gh release create "$tag" --target "$BUILD_SHA" --draft \
+            --title "T3 Code 简体中文 v0.1.7-zh.1 (build ${RUN_NUMBER})" \
+            --notes 'Based on upstream v0.1.7. Includes English / 简体中文 switching. Unsigned, unnotarized macOS DMGs: arm64 for Apple Silicon, x64 for Intel. This release stays a draft for review.'
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: arm64
+            runner: macos-15
+          - arch: x64
+            runner: macos-15-intel
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    steps:
+      - name: Checkout stable-based localization branch
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            /*
+            !/.repos/
+          sparse-checkout-cone-mode: false
+
+      - name: Set up Node.js and Vite+
+        uses: voidzero-dev/setup-vp@250f29ce396baf5e8f24498e17c0dfdebabc26eb # v1
+        with:
+          node-version-file: package.json
+          run-install: false
+
+      - name: Load upstream public connection settings
+        run: cp .env.example .env
+
+      - name: Build unsigned installer
+        env:
+          T3CODE_DESKTOP_SIGNED: "false"
+        run: bash scripts/build-macos-zh.sh "${{ matrix.arch }}"
+
+      - name: Attach installer to draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ needs.prepare.outputs.tag }}
+        run: |
+          shasum -a 256 release/*.dmg > "release/SHA256SUMS-${{ matrix.arch }}"
+          gh release upload "$RELEASE_TAG" release/*.dmg "release/SHA256SUMS-${{ matrix.arch }}" --clobber
