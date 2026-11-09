@@ -7,7 +7,7 @@ on:
         description: Architecture to build
         type: choice
         default: both
-        options: [both, arm64, x64]
+        options: [both, arm64, x64, universal]
       release_tag:
         description: Existing draft release tag (optional)
         type: string
@@ -38,6 +38,7 @@ jobs:
           case "$ARCHITECTURE" in
             arm64) matrix='{"include":[{"arch":"arm64","runner":"macos-26"}]}' ;;
             x64) matrix='{"include":[{"arch":"x64","runner":"macos-15-intel"}]}' ;;
+            universal) matrix='{"include":[{"arch":"universal","runner":"macos-15-intel"}]}' ;;
             both) matrix='{"include":[{"arch":"arm64","runner":"macos-26"},{"arch":"x64","runner":"macos-15-intel"}]}' ;;
             *) exit 1 ;;
           esac
